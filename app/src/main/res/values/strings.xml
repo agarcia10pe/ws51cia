@@ -1,13 +1,53 @@
 <resources>
-    <string name="app_name">AppEntrePatas</string>
+    <string name="app_name">EntrePatas</string>
+    <string name="app_login">Inicio Sesión</string>
+    <string name="app_sigup">Ingresar</string>
+    <string name="app_signup">Registrarme</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">Alejandro Garcia</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_adopt">Perros en Adopción</string>
+    <string name="menu_gallery">Mis solicitudes</string>
+    <string name="menu_slideshow">Ubicanos</string>
+    <string name="menu_callup">Llamanos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <!-- -->
+    <string name="user_mail">Ingresa tu correo</string>
+    <string name="user_password">Ingresa tu contraseña</string>
+    <string name="user_repeat">Repite tu contraseña</string>
+    <string name="login_forgot">¿Olvidaste tu contraseña?</string>
+
+    <string name="user_name">Ingresa tu nombre</string>
+    <string name="user_firstname">Ingresa tu apellido paterno</string>
+    <string name="user_cellphone">Ingresa tu número celular</string>
+
+    <string name="app_register">Registrar</string>
+
+    <string name="app_adopt_name">Ingresa su nombre</string>
+    <string name="app_adopt_age">Ingresa su edad</string>
+    <string name="app_adopt_weight">Ingresa su peso</string>
+
+    <string name="home_welcome">Bienvenido</string>
+    <string name="home_line1">Nuestra misión es rescatar animales de la calle en pésimas condiciones, curarlos, esterilizarlos y darlos en adopción.</string>
+    <string name="home_line2">Tenemos un albergue con capacidad para albergar un maximo de 85 perritos de manera adecuada según sus necesidades, sin tenerlos hacinados.</string>
+
+
 </resources>

@@ -12,14 +12,46 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.hache.appentrepatas.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_adopt"
+        android:name="com.hache.appentrepatas.ui.adopt.AdoptFragment"
+        android:label="@string/menu_adopt"
+        tools:layout="@layout/fragment_adopt" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.hache.appentrepatas.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_request"
+        android:name="com.hache.appentrepatas.ui.request.RequestFragment"
+        android:label="@string/menu_request"
+        tools:layout="@layout/fragment_request" />
+
+    <fragment
+        android:id="@+id/nav_locate"
+        android:name="com.hache.appentrepatas.ui.locate.LocateFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_locate" />
+
+
+    <fragment
+        android:id="@+id/nav_callup"
+        android:name="com.hache.appentrepatas.ui.callup.CallusFragment"
+        android:label="@string/menu_callup"
+        tools:layout="@layout/fragment_callus" />
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.hache.appentrepatas.ui.register.RegisterFragment"
+        android:label="@string/menu_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/nav_list"
+        android:name="com.hache.appentrepatas.ui.request.ManagementFragment"
+        android:label="@string/menu_list"
+        tools:layout="@layout/fragment_management" />
+
+    <fragment
+        android:id="@+id/nav_statistics"
+        android:name="com.hache.appentrepatas.ui.statistic.StatisticFragment"
+        android:label="@string/menu_statistics"
+        tools:layout="@layout/fragment_statistic" />
+
 </navigation>

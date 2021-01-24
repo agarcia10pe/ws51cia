@@ -6,15 +6,62 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:visible="false"
             android:title="@string/menu_home" />
+
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_adopt"
+            android:title="@string/menu_adopt" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_request"
+            android:title="@string/menu_request" />
+
+        <item
+            android:id="@+id/nav_locate"
             android:title="@string/menu_slideshow" />
+
+        <item
+            android:id="@+id/nav_callup"
+            android:title="@string/menu_callup" />
+
+        <item
+            android:id="@+id/nav_register"
+            android:title="@string/menu_register" />
+
+        <item
+            android:id="@+id/nav_list"
+            android:title="@string/menu_list" />
+
+        <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/menu_statistics" />
+
+        <item
+            android:id="@+id/nav_subtitle" >
+            <menu>
+                <item
+                    android:id="@+id/nav_setting"
+
+                    android:title="@string/menu_settings" />
+
+                <item
+                    android:id="@+id/nav_logoff"
+                    android:title="@string/menu_logoff" />
+
+            </menu>
+        </item>
+
     </group>
+
+    <!--
+    <group android:checkableBehavior="none" >
+        <item
+            android:id="@+id/nav_setting"
+            android:title="@string/menu_settings" />
+
+        <item
+            android:id="@+id/nav_logoff"
+            android:title="@string/menu_logoff" />
+    </group> -->
 </menu>

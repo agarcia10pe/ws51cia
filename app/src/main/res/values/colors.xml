@@ -12,5 +12,8 @@
     <color name="co_brown">#3A2F27</color>
 
     <color name="co_melon">#B58D66</color>
+    <color name="co_melon1">#351B07</color>
     <color name="co_bar">#47525E</color>
+
+    <color name="co_toolbar">#8190A5</color>
 </resources>

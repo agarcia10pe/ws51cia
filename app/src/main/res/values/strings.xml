@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">EntrePatas</string>
-    <string name="app_login">Inicio Sesión</string>
+    <string name="app_login">Inicio sesión</string>
     <string name="app_sigup">Ingresar</string>
     <string name="app_signup">Registrarme</string>
 
@@ -13,9 +13,18 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_adopt">Perros en Adopción</string>
-    <string name="menu_gallery">Mis solicitudes</string>
+    <string name="menu_request">Mis solicitudes</string>
     <string name="menu_slideshow">Ubicanos</string>
     <string name="menu_callup">Llamanos</string>
+
+    <string name="menu_register">Registrar perro</string>
+    <string name="menu_list">Gestión de solicitudes</string>
+    <string name="menu_statistics">Estadisticas</string>
+
+    <string name="menu_settings">Configuración</string>
+    <string name="menu_logoff">Cerrar sesión</string>
+
+    <string name="title_register">Registro perro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

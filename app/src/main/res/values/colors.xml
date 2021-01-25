@@ -15,5 +15,7 @@
     <color name="co_melon1">#351B07</color>
     <color name="co_bar">#47525E</color>
 
+    <color name="co_ok">#46812F</color>
+
     <color name="co_toolbar">#8190A5</color>
 </resources>

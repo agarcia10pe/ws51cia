@@ -1,8 +1,10 @@
 package com.hache.appentrepatas.ui.request;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,7 +21,7 @@ import com.hache.appentrepatas.ui.home.HomeFragment;
 public class ConfirmFragment extends Fragment implements View.OnClickListener {
 
     Button requestBtn;
-
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     public void onResume(){
         super.onResume();
         ((MainActivity) getActivity())
@@ -30,6 +32,15 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -48,6 +59,10 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_confirm_request:
                 //miListenerClick.getIrFragment(new HomeFragment());
                 ((MainActivity) getActivity()).setFragment(new HomeFragment());
+                /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new HomeFragment())
+                        .addToBackStack(BACK_STACK_ROOT_TAG)
+                        .detach(this)
+                        .commit(); */
             default:
                 break;
         }

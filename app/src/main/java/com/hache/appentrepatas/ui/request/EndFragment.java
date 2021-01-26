@@ -1,7 +1,9 @@
 package com.hache.appentrepatas.ui.request;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,30 +12,25 @@ import android.view.ViewGroup;
 
 import com.hache.appentrepatas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EndFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EndFragment extends Fragment {
 
     public EndFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static EndFragment newInstance(String param1, String param2) {
-        EndFragment fragment = new EndFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

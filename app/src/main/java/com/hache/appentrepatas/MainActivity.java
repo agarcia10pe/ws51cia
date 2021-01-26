@@ -18,6 +18,7 @@ import com.hache.appentrepatas.ui.request.DetailFragment;
 import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.General;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Menu menuItem;
     boolean isAdmin = false;
     NavigationView navigationView;
+    Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,14 +83,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
     public void setFragment(Fragment fragment){
         //FragmentManager manager = this.getSupportFragmentManager();
-        /*transaction.replace(R.id.nav_host_fragment, fragment).commit();
+        /*transaction.replace(this, fragment).commit();
         transaction.addToBackStack(null);
         transaction.commit();*/
-        Intent intent = new Intent(getBaseContext(), fragment.getClass());
-        startActivity(intent);
+        /*getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment)
+                .addToBackStack(BACK_STACK_ROOT_TAG)
+                .commit(); */
+        //getSupportFragmentManager().beginTransaction().remove(removeFrg).commit();
+
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+              //  .addToBackStack(null)
+                .commit();
+
+        //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment).commit();
+        /*Intent intent = new Intent(getBaseContext(), fragment.getClass());
+        startActivity(intent); */
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,5 +145,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        fragment = fragment;
+        //if(fragment != null)
+        //    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(fragment != null)
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+    }
 }

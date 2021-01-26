@@ -17,6 +17,7 @@ import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.AdoptAdapter;
 import com.hache.appentrepatas.bean.Adopt;
+import com.hache.appentrepatas.ui.home.HomeFragment;
 import com.hache.appentrepatas.ui.request.ConfirmFragment;
 import com.hache.appentrepatas.ui.request.DetailFragment;
 
@@ -27,7 +28,7 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView ;
     private ArrayList<Adopt> adopts;
     private AdoptAdapter adoptAdapter;
-
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private  Adopt[] items = null;
     Adopt item;
 
@@ -75,8 +76,9 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
             //Intent inte = new Intent(getActivity(), DetailFragment.class);
             //startActivity(inte);
             //miListenerClick.getIrFragment(new DetailFragment());
-            /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)
-                    .addToBackStack(null)
+/*
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new DetailFragment())
+                    .addToBackStack(BACK_STACK_ROOT_TAG)
                     .commit(); */
             /*   ConfirmFragment fragmen = new ConfirmFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)

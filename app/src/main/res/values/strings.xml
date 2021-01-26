@@ -75,4 +75,7 @@
     <string name="app_detail_peso">Peso:</string>
     <string name="app_detail_edad">Edad:</string>
 
+    <string name="api_maps">AIzaSyBKLsGVP4Dt3YRf0zLKXVqFT1xtxh0ALY4</string>
+    <string name="title_activity_maps">Map</string>
+
 </resources>

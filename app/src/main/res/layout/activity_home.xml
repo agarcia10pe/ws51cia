@@ -47,7 +47,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/co_blue"
-                android:text="@string/app_login" />
+                android:text="@string/app_btn_login" />
 
             <TextView
                 android:id="@+id/lbl_singup"

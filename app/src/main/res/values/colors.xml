@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="co_blue">#1965AA</color>
     <color name="co_brown">#3A2F27</color>
@@ -16,6 +16,7 @@
     <color name="co_bar">#47525E</color>
 
     <color name="co_ok">#46812F</color>
+    <color name="co_opaco">#f3f3f3</color>
 
     <color name="co_toolbar">#8190A5</color>
 </resources>

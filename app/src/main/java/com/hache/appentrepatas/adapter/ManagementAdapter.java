@@ -49,7 +49,7 @@ public class ManagementAdapter extends RecyclerView.Adapter<ManagementAdapter.Ma
     @NonNull
     @Override
     public ManagementViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vistaItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_request, parent, false);
+        View vistaItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_management, parent, false);
         return new ManagementViewHolder(vistaItem);
     }
 

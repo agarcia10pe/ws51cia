@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import com.hache.appentrepatas.HomeActivity;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
+import com.hache.appentrepatas.ui.home.HomeFragment;
 
 public class ConfirmFragment extends Fragment implements View.OnClickListener {
 
@@ -36,7 +38,7 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_confirm, container, false);
         requestBtn = (Button) view.findViewById(R.id.btn_confirm_request);
-
+        requestBtn.setOnClickListener(this);
         return view;
     }
 
@@ -44,10 +46,11 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_confirm_request:
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
+                //miListenerClick.getIrFragment(new HomeFragment());
+                ((MainActivity) getActivity()).setFragment(new HomeFragment());
             default:
                 break;
         }
     }
+
 }

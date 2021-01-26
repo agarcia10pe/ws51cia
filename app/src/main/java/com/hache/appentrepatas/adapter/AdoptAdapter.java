@@ -43,12 +43,15 @@ public class AdoptAdapter extends RecyclerView.Adapter<AdoptAdapter.AdoptViewHol
             super(itemView);
             txtName = (TextView) itemView.findViewById(R.id.txt_adopt);
             imgFoto = (ImageView) itemView.findViewById(R.id.im_dog);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 default:
+                    miListenerClick.clickItem(itemView,getAdapterPosition());
                     break;
             }
         }

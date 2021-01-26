@@ -1,16 +1,26 @@
 package com.hache.appentrepatas;
 
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.hache.appentrepatas.ui.adopt.AdoptFragment;
+import com.hache.appentrepatas.ui.home.HomeFragment;
+import com.hache.appentrepatas.ui.request.ConfirmFragment;
+import com.hache.appentrepatas.ui.request.DetailFragment;
 import com.hache.appentrepatas.util.General;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    FragmentTransaction transaction;
+    FragmentManager  manager;
+    Menu menuItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +57,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        manager = this.getSupportFragmentManager();
         General.permisoCall(this);
     }
 
     public void setActionBarTitle(String title){
-        getActionBar().setTitle(title);
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void setFragment(Fragment fragment){
+        //FragmentManager manager = this.getSupportFragmentManager();
+        transaction.replace(R.id.nav_host_fragment, fragment).commit();
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        menuItem = menu;
         return true;
     }
 
@@ -62,13 +84,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){ 
+        //transaction = getSupportFragmentManager().beginTransaction();
+        transaction = manager.beginTransaction();
+
+        switch (v.getId()){
             default:
                 break;
         }
     }
+
+
 }

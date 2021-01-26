@@ -1,9 +1,11 @@
 package com.hache.appentrepatas.ui.adopt;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.AdoptAdapter;
 import com.hache.appentrepatas.bean.Adopt;
+import com.hache.appentrepatas.ui.request.ConfirmFragment;
+import com.hache.appentrepatas.ui.request.DetailFragment;
 
 import java.util.ArrayList;
 
@@ -25,10 +30,6 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
 
     private  Adopt[] items = null;
     Adopt item;
-
-    public AdoptFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,16 +63,30 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
         return  root;
     }
 
+    public void onDetach() {
+        super.onDetach();
+    }
+
     private class OnSelectClick implements AdoptAdapter.MiListenerClick{
 
         @Override
         public void clickItem(View itemView, int posicion) {
-            //onImprimir(articulos.get(posicion).getProducto());
+            ((MainActivity) getActivity()).setFragment(new DetailFragment());
+            //Intent inte = new Intent(getActivity(), DetailFragment.class);
+            //startActivity(inte);
+            //miListenerClick.getIrFragment(new DetailFragment());
+            /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)
+                    .addToBackStack(null)
+                    .commit(); */
+            /*   ConfirmFragment fragmen = new ConfirmFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)
+                        .addToBackStack(null)
+                        .commit();*/
         }
     }
-
 
     @Override
     public void onClick(View v) {
     }
+
 }

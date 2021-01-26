@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
+import com.hache.appentrepatas.adapter.AdoptAdapter;
 import com.hache.appentrepatas.adapter.RegisterAdapter;
 import com.hache.appentrepatas.ui.register.RegisterFragment;
 import com.hache.appentrepatas.util.CenterZoomLayoutManager;
@@ -52,9 +54,6 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_detail);
         requestBtn = (Button) view.findViewById(R.id.btn_detail_request);
 
-        //getActivity().setTitle("Firulay");
-
-
         CenterZoomLayoutManager layoutManager = new CenterZoomLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -78,10 +77,8 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_detail_request:
-                ConfirmFragment fragmen = new ConfirmFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)
-                        .addToBackStack(null)
-                        .commit();
+                //miListenerClick.getIrFragment(new ConfirmFragment());
+                ((MainActivity) getActivity()).setFragment(new ConfirmFragment());
             default:
                 break;
 
@@ -103,4 +100,5 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
            return true;
         }
     }
+
 }

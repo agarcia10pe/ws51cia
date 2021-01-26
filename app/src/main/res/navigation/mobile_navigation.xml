@@ -53,4 +53,10 @@
         android:label="@string/menu_statistics"
         tools:layout="@layout/fragment_statistic" />
 
+    <activity
+        android:id="@+id/nav_logoff"
+        android:name="com.hache.appentrepatas.HomeActivity"
+        android:label=""
+        tools:layout="@layout/activity_home" />
+
 </navigation>

@@ -38,6 +38,7 @@
                 android:src="@drawable/ic_users"/>
 
             <EditText
+                android:id="@+id/userTxt"
                 android:layout_width="300dp"
                 android:hint="@string/user_mail"
                 android:layout_height="wrap_content" />

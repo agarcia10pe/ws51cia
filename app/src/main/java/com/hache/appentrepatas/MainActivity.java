@@ -15,6 +15,7 @@ import com.hache.appentrepatas.ui.adopt.AdoptFragment;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 import com.hache.appentrepatas.ui.request.ConfirmFragment;
 import com.hache.appentrepatas.ui.request.DetailFragment;
+import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.General;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentTransaction transaction;
     FragmentManager  manager;
     Menu menuItem;
+    boolean isAdmin = false;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +47,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_adopt, R.id.nav_request, R.id.nav_locate, R.id.nav_callup, R.id.nav_register, R.id.nav_list, R.id.nav_statistics,
-                R.id.nav_subtitle)
+                R.id.nav_subtitle, R.id.nav_logoff)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -57,6 +62,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        if(!Constants.user.equals("ADMIN"))
+        {
+            navigationView.getMenu().getItem(5).setVisible(false);
+            navigationView.getMenu().getItem(6).setVisible(false);
+            navigationView.getMenu().getItem(7).setVisible(false);
+        }else{
+            navigationView.getMenu().getItem(1).setVisible(false);
+            navigationView.getMenu().getItem(2).setVisible(false);
+            navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
+        }
         manager = this.getSupportFragmentManager();
         General.permisoCall(this);
     }
@@ -67,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setFragment(Fragment fragment){
         //FragmentManager manager = this.getSupportFragmentManager();
-        transaction.replace(R.id.nav_host_fragment, fragment).commit();
+        /*transaction.replace(R.id.nav_host_fragment, fragment).commit();
         transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commit();*/
+        Intent intent = new Intent(getBaseContext(), fragment.getClass());
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,6 +95,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getMenuInflater().inflate(R.menu.main, menu);
         menuItem = menu;
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.nav_logoff:
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

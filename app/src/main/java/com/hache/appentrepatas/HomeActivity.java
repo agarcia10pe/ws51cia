@@ -11,7 +11,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     Intent intent;
     TextView login_txt, singup_txt;
-
+//aqui
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

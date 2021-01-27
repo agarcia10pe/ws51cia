@@ -20,7 +20,11 @@ public class EndFragment extends Fragment implements View.OnClickListener {
     public EndFragment() {
         // Required empty public constructor
     }
-
+    public void onResume(){
+        super.onResume();
+        ((MainActivity) getActivity())
+                .setActionBarTitle("Finalizar solicitud");
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

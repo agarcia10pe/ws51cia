@@ -21,10 +21,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/size_title"
                 android:gravity="center"
+                android:textColor="@color/co_brown"
                 android:text="@string/home_welcome" />
 
             <ImageView
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="250dp"
                 android:layout_height="350dp"
                 android:layout_gravity="center_horizontal"

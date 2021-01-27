@@ -6,7 +6,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Usuario</string>
+    <string name="nav_header_title">J</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -14,8 +14,8 @@
     <string name="menu_home">Inicio</string>
     <string name="menu_adopt">Perros en Adopción</string>
     <string name="menu_request">Mis solicitudes</string>
-    <string name="menu_slideshow">Ubicanos</string>
-    <string name="menu_callup">Llamanos</string>
+    <string name="menu_slideshow">Ubícanos</string>
+    <string name="menu_callup">Llámanos</string>
 
     <string name="menu_register">Registrar perro</string>
     <string name="menu_list">Gestión de solicitudes</string>
@@ -81,5 +81,6 @@
     <string name="app_btn_login">Iniciar sesión</string>
     <string name="app_contact">Contacto</string>
     <string name="app_telefono">Tel: (01) 351-0088</string>
+    <string name="msg_token_fmt">Tel: (01) 351-0088</string>
 
 </resources>

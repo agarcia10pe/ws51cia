@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);
-            navigationView.getMenu().getItem(7).setVisible(false);
+            //navigationView.getMenu().getItem(7).setVisible(false);
         }else{
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);

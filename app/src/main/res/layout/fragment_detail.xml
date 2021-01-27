@@ -38,6 +38,7 @@
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
+                android:text="Macho"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -57,6 +58,7 @@
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
+                android:text="9 kg"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -76,6 +78,7 @@
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
+                android:text="3 años"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -95,6 +98,7 @@
                     android:id="@+id/btn_detail_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
                     android:text="@string/app_detail_request" />
 
             </LinearLayout>

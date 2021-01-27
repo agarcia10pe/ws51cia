@@ -25,9 +25,11 @@
                 android:textSize="@dimen/size_title"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:textColor="@color/co_brown"
                 android:text="@string/title_register" />
 
             <EditText
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/app_adopt_name"  />
@@ -56,6 +58,7 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"

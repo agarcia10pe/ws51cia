@@ -39,6 +39,12 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
         // Required empty public constructor
     }
 
+    public void onResume(){
+        super.onResume();
+        ((MainActivity) getActivity())
+                .setActionBarTitle("Mis solicitudes");
+    }
+
     // TODO: Rename and change types and number of parameters
     public static RequestFragment newInstance(String param1, String param2) {
         RequestFragment fragment = new RequestFragment();

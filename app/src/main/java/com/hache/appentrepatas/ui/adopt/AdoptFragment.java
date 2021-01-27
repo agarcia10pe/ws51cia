@@ -72,18 +72,8 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void clickItem(View itemView, int posicion) {
-            ((MainActivity) getActivity()).setFragment(new DetailFragment());
-            //Intent inte = new Intent(getActivity(), DetailFragment.class);
-            //startActivity(inte);
-            //miListenerClick.getIrFragment(new DetailFragment());
-/*
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new DetailFragment())
-                    .addToBackStack(BACK_STACK_ROOT_TAG)
-                    .commit(); */
-            /*   ConfirmFragment fragmen = new ConfirmFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragmen)
-                        .addToBackStack(null)
-                        .commit();*/
+            ((MainActivity) getActivity()).setFragment(1);
+            //((MainActivity) getActivity()).setFragment(new DetailFragment());
         }
     }
 

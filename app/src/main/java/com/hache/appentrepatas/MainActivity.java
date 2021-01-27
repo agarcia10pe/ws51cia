@@ -15,6 +15,8 @@ import com.hache.appentrepatas.ui.adopt.AdoptFragment;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 import com.hache.appentrepatas.ui.request.ConfirmFragment;
 import com.hache.appentrepatas.ui.request.DetailFragment;
+import com.hache.appentrepatas.ui.request.EndFragment;
+import com.hache.appentrepatas.ui.request.RequestFragment;
 import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.General;
 
@@ -37,10 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     FragmentTransaction transaction;
     FragmentManager  manager;
-    Menu menuItem;
-    boolean isAdmin = false;
     NavigationView navigationView;
-    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
         if(!Constants.user.equals("ADMIN"))
         {
             navigationView.getMenu().getItem(5).setVisible(false);
@@ -76,40 +77,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
         }
-        manager = this.getSupportFragmentManager();
+
         General.permisoCall(this);
     }
 
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
-    public void setFragment(Fragment fragment){
-        //FragmentManager manager = this.getSupportFragmentManager();
-        /*transaction.replace(this, fragment).commit();
+    public void setFragment(int position) {
+    //public void setFragment(Fragment current) {
+        switch (position) {
+            case 1:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                DetailFragment detailFragment = new DetailFragment();
+                transaction.replace(R.id.nav_host_fragment,detailFragment);
+                transaction.commitAllowingStateLoss();
+                break;
+            case 2:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                ConfirmFragment confirmFragment = new ConfirmFragment();
+                transaction.replace(R.id.nav_host_fragment,confirmFragment);
+                transaction.commitAllowingStateLoss();
+                break;
+            case 3:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                HomeFragment homeFragment = new HomeFragment();
+                transaction.replace(R.id.nav_host_fragment,homeFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            case 4:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                EndFragment endFragment = new EndFragment();
+                transaction.replace(R.id.nav_host_fragment,endFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case 5:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                RequestFragment requestFragment = new RequestFragment();
+                transaction.replace(R.id.nav_host_fragment,requestFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            default:
+                break;
+        }
+        /*
+        transaction.replace(R.id.nav_host_fragment, current);
         transaction.addToBackStack(null);
-        transaction.commit();*/
-        /*getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment)
-                .addToBackStack(BACK_STACK_ROOT_TAG)
-                .commit(); */
-        //getSupportFragmentManager().beginTransaction().remove(removeFrg).commit();
+        transaction.commit();
+*/
+        //transaction.commitAllowingStateLoss();
 
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-              //  .addToBackStack(null)
+        /*
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
                 .commit();
-
-        //getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,fragment).commit();
-        /*Intent intent = new Intent(getBaseContext(), fragment.getClass());
-        startActivity(intent); */
+*/
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        menuItem = menu;
         return true;
     }
 
@@ -117,10 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.nav_logoff:
+            /*case R.id.nav_logoff:
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -136,9 +175,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        //transaction = getSupportFragmentManager().beginTransaction();
-        transaction = manager.beginTransaction();
-
         switch (v.getId()){
             default:
                 break;
@@ -148,15 +184,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
-        fragment = fragment;
-        //if(fragment != null)
-        //    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(fragment != null)
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
     }
 }

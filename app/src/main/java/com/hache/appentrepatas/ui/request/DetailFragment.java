@@ -32,6 +32,9 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private final int RESULT_OK = -1;
     private final int PICKER = 1;
+
+    private static final String TAG = "DetailFragment";
+
     private RecyclerView recyclerView;
     private ArrayList<Uri> items;
     private RegisterAdapter registerAdapter;
@@ -91,12 +94,9 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_detail_request:
-                //miListenerClick.getIrFragment(new ConfirmFragment());
-                ((MainActivity) getActivity()).setFragment(new ConfirmFragment());
-               /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new ConfirmFragment())
-                        .addToBackStack(null)
-                        .detach(this)
-                        .commit(); */
+                ((MainActivity) getActivity()).setFragment(2);
+                //((MainActivity) getActivity()).setFragment(new ConfirmFragment());
+                break;
             default:
                 break;
 

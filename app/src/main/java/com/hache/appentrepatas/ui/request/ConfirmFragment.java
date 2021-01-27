@@ -57,12 +57,14 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_confirm_request:
-                //miListenerClick.getIrFragment(new HomeFragment());
-                ((MainActivity) getActivity()).setFragment(new HomeFragment());
-                /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment,new HomeFragment())
-                        .addToBackStack(BACK_STACK_ROOT_TAG)
-                        .detach(this)
-                        .commit(); */
+                ((MainActivity) getActivity()).setFragment(3);
+                //((MainActivity) getActivity()).setFragment(new HomeFragment());
+/*
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment,new HomeFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();*/
+                break;
             default:
                 break;
         }

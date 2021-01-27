@@ -3,12 +3,14 @@ package com.hache.appentrepatas.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.bean.Adopt;
 
@@ -31,15 +33,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     public class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView txtName;
         private ImageView imgFoto;
+        private Button button;
 
         public RequestViewHolder(View itemView) {
             super(itemView);
+            button = (Button)itemView.findViewById(R.id.btn_request_finalize);
+            button.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 default:
+                    miListenerClick.clickItem(itemView,getAdapterPosition());
                     break;
             }
         }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.ManagementAdapter;
 import com.hache.appentrepatas.adapter.RequestAdapter;
@@ -79,6 +80,7 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             default:
+
                 break;
         }
     }
@@ -88,6 +90,7 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
         @Override
         public void clickItem(View itemView, int posicion) {
             //onImprimir(articulos.get(posicion).getProducto());
+            ((MainActivity) getActivity()).setFragment(4);
         }
     }
 }

@@ -80,7 +80,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:theme="@style/Theme.AppEntrePatas.Button"
-                    android:id="@+id/btn_mangament_request"
+                    android:id="@+id/btn_request_finalize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_endup" />

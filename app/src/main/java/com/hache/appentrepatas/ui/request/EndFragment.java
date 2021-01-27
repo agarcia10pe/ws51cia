@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 
-public class EndFragment extends Fragment {
+public class EndFragment extends Fragment implements View.OnClickListener {
 
+    Button button;
     public EndFragment() {
         // Required empty public constructor
     }
@@ -38,6 +41,19 @@ public class EndFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_end, container, false);
+        button = (Button) view.findViewById(R.id.btn_request_end);
+        button.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_request_end:
+                ((MainActivity) getActivity()).setFragment(5);
+                break;
+            default:
+                break;
+        }
     }
 }

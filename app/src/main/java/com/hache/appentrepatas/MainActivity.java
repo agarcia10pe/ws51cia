@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,6 +34,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentTransaction transaction;
     FragmentManager  manager;
     NavigationView navigationView;
-
+    TextView nameTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_adopt, R.id.nav_request, R.id.nav_locate, R.id.nav_callup, R.id.nav_register, R.id.nav_list, R.id.nav_statistics,
+                R.id.nav_home, R.id.nav_adopt, R.id.nav_request, R.id.nav_locate, R.id.nav_callup, R.id.nav_register, R.id.nav_list,
                 R.id.nav_subtitle, R.id.nav_logoff)
                 .setDrawerLayout(drawer)
                 .build();
@@ -65,13 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
         if(!Constants.user.equals("ADMIN"))
         {
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);
-            //navigationView.getMenu().getItem(7).setVisible(false);
+            navigationView.getMenu().getItem(7).setVisible(false);
         }else{
+
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
@@ -87,6 +90,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (!(fragment instanceof BaseFragment) || !((BaseFragment) fragment).onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+        /*
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        boolean handled = false;
+        for(Fragment f : fragmentList) {
+            if(f instanceof BaseFragment) {
+                handled = ((BaseFragment)f).onBackPressed();
+
+                if(handled) {
+                    break;
+                }
+            }
+        }
+
+        if(!handled) {
+            super.onBackPressed();
+        }
+    }*/
+
     public void setFragment(int position) {
     //public void setFragment(Fragment current) {
         switch (position) {
@@ -95,28 +124,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 DetailFragment detailFragment = new DetailFragment();
                 transaction.replace(R.id.nav_host_fragment,detailFragment);
-                transaction.commitAllowingStateLoss();
+                transaction.commit();
                 break;
             case 2:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 ConfirmFragment confirmFragment = new ConfirmFragment();
                 transaction.replace(R.id.nav_host_fragment,confirmFragment);
-                transaction.commitAllowingStateLoss();
+                transaction.commit();
                 break;
             case 3:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 HomeFragment homeFragment = new HomeFragment();
                 transaction.replace(R.id.nav_host_fragment,homeFragment);
-                transaction.addToBackStack(null);
+                //transaction.addToBackStack(null);
                 transaction.commit();
+                break;
             case 4:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 EndFragment endFragment = new EndFragment();
                 transaction.replace(R.id.nav_host_fragment,endFragment);
-                transaction.addToBackStack(null);
+                //transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 5:
@@ -124,7 +154,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 RequestFragment requestFragment = new RequestFragment();
                 transaction.replace(R.id.nav_host_fragment,requestFragment);
-                transaction.addToBackStack(null);
+                //transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case 6:
+                manager = this.getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                AdoptFragment adoptFragment = new AdoptFragment();
+                transaction.replace(R.id.nav_host_fragment,adoptFragment);
+                //transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             default:

@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.HomeActivity;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 
-public class ConfirmFragment extends Fragment implements View.OnClickListener {
+public class ConfirmFragment extends Fragment implements View.OnClickListener, BaseFragment {
 
     Button requestBtn;
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
@@ -33,14 +34,10 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
         }
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    public boolean onBackPressed() {
+        //((MainActivity)getActivity()).setFragment(6);
+        return true;
     }
 
     @Override

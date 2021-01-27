@@ -10,6 +10,8 @@
 
     <dimen name="size_login">15dp</dimen>
     <dimen name="size_item">20dp</dimen>
+    <dimen name="size_item1">18dp</dimen>
+    <dimen name="size_item2">16dp</dimen>
     <dimen name="padding_button">10dp</dimen>
     <dimen name="btn_radius">10dp</dimen>
 </resources>

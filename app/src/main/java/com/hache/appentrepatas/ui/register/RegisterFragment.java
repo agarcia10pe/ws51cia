@@ -36,7 +36,7 @@ import kotlin.contracts.Returns;
 public class RegisterFragment extends Fragment {
 
     Spinner gender_spinner;
-    String[] gender = {"Seleccione su sexo","Hembra","Macho"} ;
+    String[] gender = {"Selecciona su sexo","Hembra","Macho"} ;
     Uri ruta;
     private final int RESULT_OK = -1;
     private final int PICKER = 1;

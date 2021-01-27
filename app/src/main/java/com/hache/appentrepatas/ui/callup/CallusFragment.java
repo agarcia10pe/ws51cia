@@ -36,10 +36,11 @@ public class CallusFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_callus, container, false);
-        String uri = "tel:013510088" ;
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse(uri));
-        startActivity(intent);
+        String uri = "tel: 013510088" ;
+        //Intent intent = new Intent(Intent.ACTION_CALL);
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(uri)));
+        //intent.setData(Uri.parse(uri));
+        //startActivity(intent);
         return view;
     }
 

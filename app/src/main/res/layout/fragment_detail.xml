@@ -33,12 +33,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/size_item"
+                android:textStyle="bold"
                 android:text="@string/app_detail_sexo" />
 
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
                 android:text="Macho"
+                android:enabled="false"
+                android:textAlignment="center"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -53,12 +56,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/size_item"
+                android:textStyle="bold"
                 android:text="@string/app_detail_peso" />
 
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
-                android:text="9 kg"
+                android:text="9 kg."
+                android:enabled="false"
+                android:textAlignment="center"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -73,12 +79,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/size_item"
+                android:textStyle="bold"
                 android:text="@string/app_detail_edad" />
 
             <EditText
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
                 android:text="3 años"
+                android:enabled="false"
+                android:textAlignment="center"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

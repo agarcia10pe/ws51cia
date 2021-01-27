@@ -29,12 +29,13 @@
                 android:text="@string/title_register" />
 
             <EditText
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/app_adopt_name"  />
 
             <Spinner
+                android:layout_marginTop="10dp"
                 android:id="@+id/spnn_gender"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -42,11 +43,13 @@
                 />
 
             <EditText
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/app_adopt_age"  />
 
             <EditText
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/app_adopt_weight"  />

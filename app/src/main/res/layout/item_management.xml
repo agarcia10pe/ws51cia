@@ -32,16 +32,28 @@
                     android:textSize="@dimen/size_item"
                     android:textStyle="bold"
                     android:gravity="center"
+                    android:textColor="@color/co_brown"
                     android:text="Firulay" />
 
-                <ImageView
-                    android:id="@+id/im_request"
-                    android:layout_width="100dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_foto" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/im_request"
+                        android:layout_width="80dp"
+                        android:layout_margin="3dp"
+
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_foto" />
+                </LinearLayout>
+
 
                 <com.google.android.material.button.MaterialButton
                     android:theme="@style/Theme.AppEntrePatas.Button"
@@ -52,22 +64,22 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_right"/>
+                    android:src="@drawable/ic_right" />
             </LinearLayout>
 
-
             <LinearLayout
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -80,14 +92,16 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/size_item"
                     android:textStyle="bold"
+                    android:textColor="@color/co_brown"
                     android:gravity="center"
                     android:text="Usuario" />
 
                 <ImageView
+
                     android:id="@+id/im_fhoto"
-                    android:layout_width="100dp"
+                    android:layout_width="80dp"
                     android:layout_marginTop="8dp"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_user" />

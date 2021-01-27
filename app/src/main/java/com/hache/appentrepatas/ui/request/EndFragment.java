@@ -11,10 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 
-public class EndFragment extends Fragment implements View.OnClickListener {
+public class EndFragment extends Fragment implements View.OnClickListener, BaseFragment {
 
     Button button;
     public EndFragment() {
@@ -25,14 +26,10 @@ public class EndFragment extends Fragment implements View.OnClickListener {
         ((MainActivity) getActivity())
                 .setActionBarTitle("Finalizar solicitud");
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    public boolean onBackPressed() {
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+        //((MainActivity)getActivity()).setFragment(6);
+        return false;
     }
 
     @Override

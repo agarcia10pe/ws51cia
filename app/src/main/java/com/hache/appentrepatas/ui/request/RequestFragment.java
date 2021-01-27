@@ -2,6 +2,7 @@ package com.hache.appentrepatas.ui.request;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,13 +17,9 @@ import com.hache.appentrepatas.adapter.ManagementAdapter;
 import com.hache.appentrepatas.adapter.RequestAdapter;
 import com.hache.appentrepatas.bean.Adopt;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RequestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RequestFragment extends Fragment implements  View.OnClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
@@ -44,6 +41,8 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
         ((MainActivity) getActivity())
                 .setActionBarTitle("Mis solicitudes");
     }
+
+
 
     // TODO: Rename and change types and number of parameters
     public static RequestFragment newInstance(String param1, String param2) {

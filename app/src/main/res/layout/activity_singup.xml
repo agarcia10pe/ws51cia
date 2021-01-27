@@ -30,18 +30,18 @@
                 android:text="@string/app_signup" />
 
             <EditText
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_mail"  />
             <EditText
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_password"  />
 
             <EditText
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_repeat"  />
@@ -52,12 +52,12 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/user_name"  />
             <EditText
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_firstname"  />
             <EditText
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_cellphone"  />

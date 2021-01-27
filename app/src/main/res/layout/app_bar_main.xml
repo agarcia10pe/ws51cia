@@ -22,12 +22,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorSecondary"
             app:titleTextColor="@color/co_bar"
+            app:titleTextAppearance="@style/ActionBar.nameText"
             app:popupTheme="@style/Theme.AppEntrePatas.PopupOverlay" >
-<!--
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/layout_headboard" /> -->
+
 
         </androidx.appcompat.widget.Toolbar>
 

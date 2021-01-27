@@ -31,4 +31,10 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="ActionBar.nameText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/co_bar</item>
+        <!--<item name="android:textSize">18sp</item>-->
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

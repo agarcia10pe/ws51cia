@@ -6,25 +6,25 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">J</string>
+    <string name="nav_header_title">Alejandro Garcia</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Inicio</string>
-    <string name="menu_adopt">Perros en Adopción</string>
-    <string name="menu_request">Mis solicitudes</string>
+    <string name="menu_adopt">Perros en adopción</string>
+    <string name="menu_request">Mis Solicitudes</string>
     <string name="menu_slideshow">Ubícanos</string>
     <string name="menu_callup">Llámanos</string>
 
-    <string name="menu_register">Registrar perro</string>
-    <string name="menu_list">Gestión de solicitudes</string>
-    <string name="menu_statistics">Estadisticas</string>
+    <string name="menu_register">Registrar Perro</string>
+    <string name="menu_list">Gestión de Solicitudes</string>
+    <string name="menu_statistics">Estadísticas</string>
 
     <string name="menu_settings">Configuración</string>
     <string name="menu_logoff">Cerrar sesión</string>
 
-    <string name="title_register">Registro perro</string>
+    <string name="title_register">Registro de perro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

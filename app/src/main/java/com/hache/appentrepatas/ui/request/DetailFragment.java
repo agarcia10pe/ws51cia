@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.AdoptAdapter;
@@ -27,7 +28,7 @@ import com.hache.appentrepatas.util.CenterZoomLayoutManager;
 
 import java.util.ArrayList;
 
-public class DetailFragment extends Fragment implements  View.OnClickListener {
+public class DetailFragment extends Fragment implements  View.OnClickListener , BaseFragment {
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private final int RESULT_OK = -1;
@@ -63,6 +64,11 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
                 .setActionBarTitle("Firulay");
     }
 
+    public boolean onBackPressed() {
+        //((MainActivity)getActivity()).setFragment(6);
+        return false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +92,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener {
         registerAdapter = new RegisterAdapter(getContext(), new DetailFragment.OnSelectClick(), items);
         recyclerView.setAdapter(registerAdapter);
         requestBtn.setOnClickListener(this);
+
 
         return view;
     }

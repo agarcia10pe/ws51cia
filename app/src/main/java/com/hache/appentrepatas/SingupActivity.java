@@ -59,7 +59,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
-    }
+    }//
 
     Boolean validarRegistro() {
         if (correo.getText().toString().trim().length() == 0) {

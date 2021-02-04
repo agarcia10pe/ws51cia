@@ -19,10 +19,10 @@ import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 
-public class ConfirmFragment extends Fragment implements View.OnClickListener, BaseFragment {
+public class ConfirmFragment extends BaseFragment implements View.OnClickListener {
 
     Button requestBtn;
-    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+
     public void onResume(){
         super.onResume();
         ((MainActivity) getActivity())

@@ -15,7 +15,7 @@ import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 
-public class EndFragment extends Fragment implements View.OnClickListener, BaseFragment {
+public class EndFragment extends Fragment implements View.OnClickListener {
 
     Button button;
     public EndFragment() {

@@ -30,36 +30,58 @@
                 android:text="@string/app_signup" />
 
             <EditText
+                android:id="@+id/et_mail"
                 android:layout_marginTop="30dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textColor="@color/co_brown"
+                android:inputType="textEmailAddress"
                 android:hint="@string/user_mail"  />
             <EditText
+                android:id="@+id/et_pass"
+                android:password="true"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
+                android:maxLength="20"
                 android:layout_height="wrap_content"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_password"  />
 
             <EditText
+                android:id="@+id/et_repass"
+                android:password="true"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_repeat"  />
 
             <EditText
+                android:id="@+id/et_nombre"
                 android:layout_marginTop="20dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_name"  />
             <EditText
+                android:id="@+id/et_apellido"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_firstname"  />
             <EditText
+                android:id="@+id/et_telefono"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="9"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_cellphone"  />
 
             <LinearLayout

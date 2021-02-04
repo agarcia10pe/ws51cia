@@ -40,8 +40,10 @@
                 android:src="@drawable/ic_users"/>
 
             <EditText
-                android:id="@+id/userTxt"
+                android:id="@+id/login_userTxt"
                 android:layout_width="300dp"
+                android:textColor="@color/co_brown"
+                android:maxLength="20"
                 android:hint="@string/user_mail"
                 android:layout_height="wrap_content" />
 
@@ -60,8 +62,11 @@
                 android:src="@drawable/ic_lock"/>
 
             <EditText
+                android:id="@+id/login_passTxt"
                 android:layout_width="300dp"
                 android:password="true"
+                android:maxLength="20"
+                android:textColor="@color/co_brown"
                 android:hint="@string/user_password"
                 android:layout_height="wrap_content" />
 

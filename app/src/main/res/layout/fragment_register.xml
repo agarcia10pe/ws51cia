@@ -29,8 +29,10 @@
                 android:text="@string/title_register" />
 
             <EditText
+                android:id="@+id/nombre_registerTxt"
                 android:layout_marginTop="30dp"
                 android:layout_width="300dp"
+                android:textColor="@color/co_brown"
                 android:layout_height="wrap_content"
                 android:hint="@string/app_adopt_name"  />
 
@@ -38,20 +40,29 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/spnn_gender"
                 android:layout_width="300dp"
+                android:textColor="@color/co_brown"
                 android:layout_height="wrap_content"
                 android:layoutMode="clipBounds"
                 />
 
             <EditText
+                android:id="@+id/edad_registerTxt"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="3"
+                android:textColor="@color/co_brown"
+                android:inputType="number"
                 android:hint="@string/app_adopt_age"  />
 
             <EditText
+                android:id="@+id/peso_registerTxt"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="5"
+                android:textColor="@color/co_brown"
+                android:inputType="numberDecimal"
                 android:hint="@string/app_adopt_weight"  />
 
             <androidx.recyclerview.widget.RecyclerView

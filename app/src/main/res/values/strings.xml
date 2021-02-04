@@ -24,7 +24,7 @@
     <string name="menu_settings">Configuración</string>
     <string name="menu_logoff">Cerrar sesión</string>
 
-    <string name="title_register">Registro de perro</string>
+    <string name="title_register">Registro de Perro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -68,7 +68,8 @@
 
     <string name="app_aprobar">Aprobar</string>
     <string name="app_rechazar">Rechazar</string>
-    <string name="app_confirm_request">Confirmar solicitud</string>
+    <string name="app_confirm_request">Solicitud</string>
+    <!--<string name="app_confirm_request">Confirmar solicitud</string>-->
     <string name="app_detail_request">Solicitar adopción</string>
 
     <string name="app_detail_sexo">Sexo:</string>
@@ -82,5 +83,31 @@
     <string name="app_contact">Contacto</string>
     <string name="app_telefono">Tel: (01) 351-0088</string>
     <string name="msg_token_fmt">Tel: (01) 351-0088</string>
+
+    <!-- Mensajes -->
+    <string name="msg_registro_valMail">Verificar formato de email</string>
+    <string name="msg_registro_valPass">La contraseña no coincide</string>
+    <string name="msg_registro_mail">Ingresar email</string>
+    <string name="msg_registro_password">La contraseña no puede ser vacío</string>
+    <string name="msg_registro_repasswod">Ingresar repetir contraseña</string>
+    <string name="msg_registro_nombre">Ingresar nombre</string>
+    <string name="msg_registro_apellido">Ingresar apellido</string>
+    <string name="msg_registro_telefono">Ingresar telefono</string>
+    <string name="msg_registro_format_telefono">El número celular debe ser un valor numérico de 9 dígitos</string>
+    <string name="msg_registro_exito">Registro exitoso</string>
+
+    <string name="msg_login_user">Ingresar usuario</string>
+    <string name="msg_login_pass">Ingresar contraseña</string>
+    <string name="msg_login_valPass">Correo o contraseña, inválidos. Corregir</string>
+    <string name="msg_login_exito">Login exitoso</string>
+
+    <string name="msg_register_nombre">Ingresar nomobre</string>
+    <string name="msg_register_sexo">Seleccionar sexo</string>
+    <string name="msg_register_edad">Ingresar edad</string>
+    <string name="msg_register_peso">Ingresar peso</string>
+    <string name="msg_register_foto">Agregar una foto como minimo</string>
+    <string name="msg_register">Registro exitoso</string>
+
+    <string name="msg_error_ocurrio">Ocurrió error inesperado, vuelva a intentar mas tarde</string>
 
 </resources>

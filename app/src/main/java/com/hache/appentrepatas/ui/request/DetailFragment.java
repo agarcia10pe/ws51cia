@@ -1,6 +1,8 @@
 package com.hache.appentrepatas.ui.request;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,10 +10,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.ContentFrameLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +32,7 @@ import com.hache.appentrepatas.util.CenterZoomLayoutManager;
 
 import java.util.ArrayList;
 
-public class DetailFragment extends Fragment implements  View.OnClickListener , BaseFragment {
+public class DetailFragment extends BaseFragment implements  View.OnClickListener   {
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private final int RESULT_OK = -1;
@@ -50,11 +54,13 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ((MainActivity) getActivity()).removeBackPressListener(this);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+//        ((MainActivity) getActivity()).addBackPressListener(this);
     }
 
 
@@ -64,9 +70,14 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
                 .setActionBarTitle("Firulay");
     }
 
+
+
     public boolean onBackPressed() {
         //((MainActivity)getActivity()).setFragment(6);
+        //getActivity().getSupportFragmentManager().popBackStack();
+
         return false;
+        //return false;
     }
 
     @Override
@@ -93,6 +104,20 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
         recyclerView.setAdapter(registerAdapter);
         requestBtn.setOnClickListener(this);
 
+
+
+        /*
+        getView().setFocusableInTouchMode(true);
+        getView().setOnKeyListener( new View.OnKeyListener() {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event ){
+                if( keyCode == KeyEvent.KEYCODE_BACK ){
+                    ((MainActivity)getActivity()).setFragment(6);
+                    return true;
+                }
+                return false;
+            }
+        } );*/
 
         return view;
     }

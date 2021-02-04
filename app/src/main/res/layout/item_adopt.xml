@@ -23,18 +23,30 @@
             <ImageView
                 android:id="@+id/im_dog"
                 android:layout_width="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_height="200dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_height="123dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:layout_weight="1"
                 android:src="@drawable/ic_foto" />
 
+            <!--
+            <ImageView
+                        android:id="@+id/im_request"
+                        android:layout_width="80dp"
+                        android:layout_margin="3dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_foto" />
+            -->
+
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_margin="8dp"
+                android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:gravity="center"

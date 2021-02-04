@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.hache.appentrepatas.helper.VeterinariaDB;
 
 import static android.content.ContentValues.TAG;
 
@@ -20,6 +21,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     Intent intent;
     TextView login_txt, singup_txt;
+
+
 //aqui
     @Override
     protected void onCreate(Bundle savedInstanceState) {

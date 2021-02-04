@@ -30,36 +30,52 @@
                 android:text="@string/app_signup" />
 
             <EditText
+                android:id="@+id/et_singup_correo"
                 android:layout_marginTop="30dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
                 android:hint="@string/user_mail"  />
+
             <EditText
+                android:id="@+id/et_singup_password"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:password="true"
+                android:maxLength="8"
                 android:hint="@string/user_password"  />
 
             <EditText
+                android:id="@+id/et_singup_repassword"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:password="true"
+                android:maxLength="8"
                 android:hint="@string/user_repeat"  />
 
             <EditText
+                android:id="@+id/et_singup_nombre"
                 android:layout_marginTop="20dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
                 android:hint="@string/user_name"  />
             <EditText
+                android:id="@+id/et_singup_paterno"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:maxLength="20"
                 android:hint="@string/user_firstname"  />
             <EditText
+                android:id="@+id/et_singup_telefono"
                 android:layout_marginTop="10dp"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="9"
                 android:hint="@string/user_cellphone"  />
 
             <LinearLayout

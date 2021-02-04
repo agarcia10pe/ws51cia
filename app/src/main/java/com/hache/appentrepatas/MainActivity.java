@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        if(!Constants.user.equals("ADMIN"))
+        if(!Constants.user.equals("ADMIN@CORREO.COM"))
         {
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);

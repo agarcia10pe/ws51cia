@@ -14,10 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.AdoptAdapter;
@@ -36,22 +33,16 @@ import javax.xml.transform.Result;
 
 import kotlin.contracts.Returns;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment {
 
     Spinner gender_spinner;
     String[] gender = {"Selecciona su sexo","Hembra","Macho"} ;
     Uri ruta;
-
-    EditText nombreTxt, edadTxt, pesoTxt;
-    Button registerBtn;
-
     private final int RESULT_OK = -1;
     private final int PICKER = 1;
     private RecyclerView recyclerView;
     private ArrayList<Uri> items;
     private RegisterAdapter registerAdapter;
-
-    int numFoto = 0;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,14 +69,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        nombreTxt = (EditText) view.findViewById(R.id.nombre_registerTxt);
         gender_spinner = (Spinner) view.findViewById(R.id.spnn_gender);
-        edadTxt = (EditText) view.findViewById(R.id.edad_registerTxt);
-        pesoTxt = (EditText) view.findViewById(R.id.peso_registerTxt);
-        registerBtn = (Button) view.findViewById(R.id.btn_register_dog);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_register);
-
-        registerBtn.setOnClickListener(this);
 
         gender_spinner.setAdapter(new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, gender));
 
@@ -102,19 +87,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         recyclerView.setAdapter(registerAdapter);
 
         return view;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_register_dog:
-                if (valRegisttro()){
-                    Toast.makeText(getContext(),getString(R.string.msg_register), Toast.LENGTH_LONG).show();
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     private class OnSelectClick implements RegisterAdapter.MiListenerClick{
@@ -140,31 +112,5 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
             return true;
         }
-    }
-
-    Boolean valRegisttro(){
-        if(nombreTxt.getText().toString().length() == 0){
-            Toast.makeText(getContext(),getString(R.string.msg_register_nombre), Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if(gender_spinner.getSelectedItemId() == 0){
-            Toast.makeText(getContext(),getString(R.string.msg_register_sexo), Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        if(edadTxt.getText().toString().length() == 0){
-            Toast.makeText(getContext(),getString(R.string.msg_register_edad), Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if(pesoTxt.getText().toString().length() == 0){
-            Toast.makeText(getContext(),getString(R.string.msg_register_peso), Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if(numFoto == 0){
-            Toast.makeText(getContext(),getString(R.string.msg_register_foto), Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        return true;
     }
 }

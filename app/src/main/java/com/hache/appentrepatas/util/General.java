@@ -11,9 +11,6 @@ import androidx.core.content.ContextCompat;
 
 import com.hache.appentrepatas.MainActivity;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public  class  General {
 
     final private static int REQUEST_CODE_ASK_PERMISSIONS = 123;
@@ -29,14 +26,5 @@ public  class  General {
         }else{
             // No se necesita requerir permiso OS menos a 6.0.
         }
-    }
-
-
-    public static boolean validarMail(String email) {
-        // Patron para validar el email
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
-        Matcher mather = pattern.matcher(email);
-        return mather.find();
     }
 }

@@ -2,63 +2,35 @@ package com.hache.appentrepatas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.hache.appentrepatas.helper.VeterinariaContract;
-import com.hache.appentrepatas.helper.VeterinariaDB;
-import com.hache.appentrepatas.util.General;
 
 public class SingupActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button register_btn;
-    EditText correo, password, repassword, nombre, apellido, telefono;
     Intent intent;
-    long newRowId;
-    VeterinariaDB dbHelper ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singup);
 
-        correo = (EditText) findViewById(R.id.et_mail);
-        password = (EditText) findViewById(R.id.et_pass);
-        repassword = (EditText) findViewById(R.id.et_repass);
-        nombre = (EditText) findViewById(R.id.et_nombre);
-        apellido = (EditText) findViewById(R.id.et_apellido);
-        telefono = (EditText) findViewById(R.id.et_telefono);
-
         register_btn = (Button) findViewById(R.id.btn_singup_register);
         register_btn.setOnClickListener(this);
-        dbHelper = new VeterinariaDB(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.btn_singup_register:
-                if (validarRegistro()) {
-                    /*crearUsuario();
-                    if (newRowId > 0) {
-                        Toast.makeText(this, getString(R.string.msg_registro_exito), Toast.LENGTH_LONG).show();
-                        intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                    } */
-
-                    Toast.makeText(this, getString(R.string.msg_registro_exito), Toast.LENGTH_LONG).show();
-                    intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
-                }
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
             default:
                 break;
         }
+<<<<<<< HEAD
     }//
 
     Boolean validarRegistro() {
@@ -128,5 +100,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
             System.out.println("Mensaje: "+ ex.getMessage());
             Toast.makeText(this, getString(R.string.msg_error_ocurrio),Toast.LENGTH_LONG).show();
         }
+=======
+>>>>>>> parent of 19fcadd... observaciones + validacion ( login + registrarme) + Configuracion SQLLite
     }
 }

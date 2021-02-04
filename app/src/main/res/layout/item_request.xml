@@ -43,7 +43,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center">
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -91,9 +90,8 @@
                 android:background="#B58D66">
 
                 <LinearLayout
-                    android:id="@+id/ly_estado"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:minWidth="180dp"
                     android:orientation="horizontal">
@@ -129,32 +127,15 @@
 
                     </LinearLayout>
 
+
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_below="@+id/ly_estado"
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:theme="@style/Theme.AppEntrePatas.Button"
+                    android:id="@+id/btn_request_finalize"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="bottom|center_horizontal" >
-
-
-                        <com.google.android.material.button.MaterialButton
-                            android:theme="@style/Theme.AppEntrePatas.Button"
-                            android:id="@+id/btn_request_finalize"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/app_endup" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-
+                    android:text="@string/app_endup" />
 
             </LinearLayout>
 

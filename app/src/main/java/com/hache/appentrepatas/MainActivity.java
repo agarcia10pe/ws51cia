@@ -1,7 +1,6 @@
 package com.hache.appentrepatas;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,8 +34,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -47,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentManager  manager;
     NavigationView navigationView;
     TextView nameTxt;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        //Llamando nombre del perfil
-        NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        nameTxt = (TextView) headerView.findViewById(R.id.lbl_user_name);
-
-        nameTxt.setText(Constants.user);
-
         if(!Constants.user.equals("ADMIN"))
         {
             navigationView.getMenu().getItem(5).setVisible(false);
@@ -93,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         General.permisoCall(this);
-
     }
 
     public void setActionBarTitle(String title){
@@ -104,105 +92,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        /*List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(Fragment f : fragments){
-            if(f != null && f instanceof BaseFragment)
-                ((BaseFragment)f).onBackPressed();
-        }*/
-        if(getFragmentManager().getBackStackEntryCount() > 0)
-            getFragmentManager().popBackStack();
-        else
+        super.onBackPressed();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (!(fragment instanceof BaseFragment) || !((BaseFragment) fragment).onBackPressed()) {
             super.onBackPressed();
-/*
-        boolean eventConsumed = false;
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment instanceof BaseFragment) {
-                    eventConsumed = eventConsumed
-                            || ((BaseFragment) fragment).onBackPressed();
+        }
+    }
+        /*
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        boolean handled = false;
+        for(Fragment f : fragmentList) {
+            if(f instanceof BaseFragment) {
+                handled = ((BaseFragment)f).onBackPressed();
+
+                if(handled) {
+                    break;
                 }
             }
         }
-        if (!eventConsumed) {
-            super.onBackPressed();
-        } */
-        /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        if (!(fragment instanceof BaseFragment) || !((BaseFragment) fragment).onBackPressed()) {
-            super.onBackPressed();
-        }*/
-    }
 
-    public void removeBackPressListener(Fragment frg){
-        try{
-            manager = this.getSupportFragmentManager();
-            transaction = manager.beginTransaction();
-            transaction.remove(frg).commit();
+        if(!handled) {
+            super.onBackPressed();
         }
-        catch (Exception ex){
-            System.out.println("Error remove fragment");
-        }
-    }
-    public void addBackPressListener(Fragment frg){
-        try{
-            manager = this.getSupportFragmentManager();
-            transaction = manager.beginTransaction();
-            transaction.add(R.id.nav_host_fragment,frg).commit();
-        }
-        catch (Exception ex){
-            System.out.println("Error add fragment");
-        }
-    }
+    }*/
 
     public void setFragment(int position) {
+    //public void setFragment(Fragment current) {
         switch (position) {
             case 1:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 DetailFragment detailFragment = new DetailFragment();
                 transaction.replace(R.id.nav_host_fragment,detailFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                transaction.commit();
                 break;
             case 2:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 ConfirmFragment confirmFragment = new ConfirmFragment();
                 transaction.replace(R.id.nav_host_fragment,confirmFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                transaction.commit();
                 break;
             case 3:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 HomeFragment homeFragment = new HomeFragment();
                 transaction.replace(R.id.nav_host_fragment,homeFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                //transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case 4:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 EndFragment endFragment = new EndFragment();
                 transaction.replace(R.id.nav_host_fragment,endFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                //transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case 5:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 RequestFragment requestFragment = new RequestFragment();
                 transaction.replace(R.id.nav_host_fragment,requestFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                //transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case 6:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 AdoptFragment adoptFragment = new AdoptFragment();
                 transaction.replace(R.id.nav_host_fragment,adoptFragment);
-                transaction.addToBackStack(null);
-                transaction.commitAllowingStateLoss();
+                //transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             default:
                 break;
@@ -233,6 +194,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            /*case R.id.nav_logoff:
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -254,9 +219,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+    }
 
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

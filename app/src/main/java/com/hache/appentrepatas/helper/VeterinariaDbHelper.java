@@ -39,4 +39,15 @@ public class VeterinariaDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + VeterinariaContract.UsuarioEntry.TABLE_NAME;
+
+    private static final String SQL_SEARCH_ENTRIES =
+            "SELECT * FROM" + VeterinariaContract.UsuarioEntry.TABLE_NAME +
+                    " WHERE " +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_CORREO + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_PASSWORD + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_TIPO_USUARIO + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_NOMBRE + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_PATERNO + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_CELULAR + " TEXT," +
+                    VeterinariaContract.UsuarioEntry.COLUMN_NAME_ESTADO + " TEXT)";
 }

@@ -4,6 +4,7 @@ package com.hache.appentrepatas;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -67,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        nameTxt  = (TextView) navigationView.getHeaderView(0).findViewById(R.id.lbl_user_name);
+        nameTxt.setText(Constants.user);
 
         if(!Constants.user.equals("ADMIN@CORREO.COM"))
         {

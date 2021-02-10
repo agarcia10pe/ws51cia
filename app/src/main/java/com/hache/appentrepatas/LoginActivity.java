@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
-            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER).toUpperCase();
+            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             return;
@@ -78,8 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (response.body().getCodigo() == 1) {
                                 Toast.makeText(getApplicationContext() , getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
 
-                                Constants.user = user_txt.getText().toString().trim().toUpperCase();
-
+                                Constants.user = response.body().getData().getNombre() + " " + response.body().getData().getApePaterno();
                                 SharedPreferencesManager.setSomeStringValue(Constants.PREF_USER, request.getCorreo());
                                 SharedPreferencesManager.setSomeStringValue(Constants.PREF_NOMBRE, response.body().getData().getNombre());
                                 SharedPreferencesManager.setSomeStringValue(Constants.PREF_APELLIDO, response.body().getData().getApePaterno());

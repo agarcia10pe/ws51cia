@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
-            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER).toUpperCase();
+            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             return;

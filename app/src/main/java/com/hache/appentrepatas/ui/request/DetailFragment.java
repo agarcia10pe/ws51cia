@@ -104,8 +104,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
                     txtPesoPerro.setText(perroDTO.getPeso());
                     txtSexoPerro.setText(perroDTO.getSexo());
 
-                    ((MainActivity) getActivity())
-                            .setActionBarTitle(perroDTO.getNombre());
+                    ((MainActivity) getActivity()).setActionBarTitle(perroDTO.getNombre());
 
                     items = new ArrayList<String>();
                     items.add(perroDTO.getImagen());
@@ -144,6 +143,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     }
 
     public boolean onBackPressed() {
+        ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.menu_adopt));
         ((MainActivity)getActivity()).setFragment(6, null, false);
         return false;
     }

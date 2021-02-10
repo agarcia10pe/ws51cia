@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.hache.appentrepatas.helper.SharedPreferencesManager;
 import com.hache.appentrepatas.ui.adopt.AdoptFragment;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 import com.hache.appentrepatas.ui.request.ConfirmFragment;
@@ -20,9 +21,11 @@ import com.hache.appentrepatas.ui.request.DetailFragment;
 import com.hache.appentrepatas.ui.request.EndFragment;
 import com.hache.appentrepatas.ui.request.RequestFragment;
 import com.hache.appentrepatas.util.Constants;
+import com.hache.appentrepatas.util.EnumSolicitud;
 import com.hache.appentrepatas.util.General;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -43,19 +46,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     FragmentTransaction transaction;
     FragmentManager  manager;
+    DrawerLayout drawer;
     NavigationView navigationView;
     TextView nameTxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) == null) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
-
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -71,19 +80,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         nameTxt  = (TextView) navigationView.getHeaderView(0).findViewById(R.id.lbl_user_name);
+
+        navigationView.getMenu().findItem(R.id.nav_logoff).setOnMenuItemClickListener(menuItem -> {
+           logout();
+           return true;
+        });
         nameTxt.setText(Constants.user);
 
-        if(!Constants.user.equals("ADMIN@CORREO.COM"))
+        if(SharedPreferencesManager.getSomeIntValue(Constants.PREF_TIPO_USUARIO) == EnumSolicitud.TipoUsuario.ADMINISTRADOR.getCode())
         {
-            navigationView.getMenu().getItem(5).setVisible(false);
-            navigationView.getMenu().getItem(6).setVisible(false);
-            navigationView.getMenu().getItem(7).setVisible(false);
-        }else{
-
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(false);
+        } else {
+
+            navigationView.getMenu().getItem(5).setVisible(false);
+            navigationView.getMenu().getItem(6).setVisible(false);
+            navigationView.getMenu().getItem(7).setVisible(false);
         }
 
         General.permisoCall(this);
@@ -97,11 +111,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        if (!(fragment instanceof BaseFragment) || !((BaseFragment) fragment).onBackPressed()) {
-            super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+            if((fragment instanceof BaseFragment))
+            {
+                ((BaseFragment) fragment).onBackPressed();
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+        } else {
+            //super.onBackPressed();
         }
+
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        if (!(fragment instanceof BaseFragment) || !((BaseFragment) fragment).onBackPressed()) {
+//            super.onBackPressed();
+//        }
     }
         /*
         List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
@@ -121,14 +146,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }*/
 
-    public void setFragment(int position) {
+    public void setFragment(int position, Bundle bundle, boolean addToBackStack) {
     //public void setFragment(Fragment current) {
         switch (position) {
             case 1:
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 DetailFragment detailFragment = new DetailFragment();
+                if (bundle != null)
+                    detailFragment.setArguments(bundle);
                 transaction.replace(R.id.nav_host_fragment,detailFragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 2:
@@ -136,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 ConfirmFragment confirmFragment = new ConfirmFragment();
                 transaction.replace(R.id.nav_host_fragment,confirmFragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 3:
@@ -143,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 HomeFragment homeFragment = new HomeFragment();
                 transaction.replace(R.id.nav_host_fragment,homeFragment);
-                //transaction.addToBackStack(null);
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 4:
@@ -151,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 EndFragment endFragment = new EndFragment();
                 transaction.replace(R.id.nav_host_fragment,endFragment);
-                //transaction.addToBackStack(null);
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 5:
@@ -159,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 RequestFragment requestFragment = new RequestFragment();
                 transaction.replace(R.id.nav_host_fragment,requestFragment);
-                //transaction.addToBackStack(null);
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case 6:
@@ -167,7 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 transaction = manager.beginTransaction();
                 AdoptFragment adoptFragment = new AdoptFragment();
                 transaction.replace(R.id.nav_host_fragment,adoptFragment);
-                //transaction.addToBackStack(null);
+                if (addToBackStack)
+                    transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             default:
@@ -232,5 +262,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void logout() {
+        SharedPreferencesManager.remove(Constants.PREF_USER);
+        SharedPreferencesManager.remove(Constants.PREF_NOMBRE);
+        SharedPreferencesManager.remove(Constants.PREF_APELLIDO);
+        SharedPreferencesManager.remove(Constants.PREF_TIPO_USUARIO);
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }

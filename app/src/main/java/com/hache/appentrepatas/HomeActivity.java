@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.hache.appentrepatas.helper.SharedPreferencesManager;
+import com.hache.appentrepatas.util.Constants;
 
 import static android.content.ContentValues.TAG;
 
@@ -24,6 +26,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
+            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER).toUpperCase();
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         setContentView(R.layout.activity_home);
 
         login_txt =(TextView) findViewById(R.id.lbl_login);

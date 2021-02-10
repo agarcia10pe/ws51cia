@@ -10,8 +10,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hache.appentrepatas.dto.BaseResponse;
+import com.hache.appentrepatas.dto.LoginRequest;
+import com.hache.appentrepatas.dto.UsuarioDTO;
+import com.hache.appentrepatas.helper.SharedPreferencesManager;
+import com.hache.appentrepatas.http.SolicitudClient;
+import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.General;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,9 +30,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText user_txt, pass_txt;
 
     Intent intent;
+    SolicitudService solicitudService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
+            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER).toUpperCase();
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         register_txt = (TextView) findViewById(R.id.lbl_login_register);
@@ -31,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pass_txt = (EditText)  findViewById(R.id.pass_LoginTxt);
         login_btn.setOnClickListener(this);
         register_txt.setOnClickListener(this);
+
+        solicitudService = SolicitudClient.getInstance().getSolicitudService();
     }
 
     @Override
@@ -42,11 +64,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_login:
                 if(valLogin()){
-                    Toast.makeText(this, getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
 
-                    Constants.user = user_txt.getText().toString().trim().toUpperCase();
-                    intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
+                    LoginRequest request = new LoginRequest();
+                    request.setCorreo(user_txt.getText().toString());
+                    request.setContrasena(pass_txt.getText().toString().trim());
+
+                    Call<BaseResponse<UsuarioDTO>> call = solicitudService.autenticarUsuario(request);
+
+                    call.enqueue(new Callback<BaseResponse<UsuarioDTO>>() {
+                        @Override
+                        public void onResponse(Call<BaseResponse<UsuarioDTO>> call, Response<BaseResponse<UsuarioDTO>> response) {
+
+                            if (response.body().getCodigo() == 1) {
+                                Toast.makeText(getApplicationContext() , getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
+
+                                Constants.user = user_txt.getText().toString().trim().toUpperCase();
+
+                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_USER, request.getCorreo());
+                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_NOMBRE, response.body().getData().getNombre());
+                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_APELLIDO, response.body().getData().getApePaterno());
+                                SharedPreferencesManager.setSomeIntValue(Constants.PREF_TIPO_USUARIO, response.body().getData().getIdTipoUsu());
+
+                                intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                return;
+                            }
+
+                            Toast.makeText(getApplicationContext() , getString(R.string.msg_login_incorecto), Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<BaseResponse<UsuarioDTO>> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
 
                 break;

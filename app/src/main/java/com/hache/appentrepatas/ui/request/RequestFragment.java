@@ -95,7 +95,7 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
         @Override
         public void clickItem(View itemView, int posicion) {
             //onImprimir(articulos.get(posicion).getProducto());
-            ((MainActivity) getActivity()).setFragment(4);
+            ((MainActivity) getActivity()).setFragment(4, null, true);
         }
     }
 }

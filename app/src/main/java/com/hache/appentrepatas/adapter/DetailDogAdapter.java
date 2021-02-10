@@ -1,54 +1,44 @@
 package com.hache.appentrepatas.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hache.appentrepatas.R;
-import com.hache.appentrepatas.util.CenterZoomLayoutManager;
 
-import java.io.Console;
 import java.util.ArrayList;
 
-public class RegisterAdapter extends RecyclerView.Adapter<RegisterAdapter.RegisterViewHolder>{
+public class DetailDogAdapter extends RecyclerView.Adapter<DetailDogAdapter.RegisterViewHolder>{
     private Context context;
-    private RegisterAdapter.MiListenerClick miListenerClick;
-    private ArrayList<Uri> items;
+    private ArrayList<String> items;
 
-    public RegisterAdapter(Context context, RegisterAdapter.MiListenerClick miListenerClick, ArrayList<Uri> items) {
+    public DetailDogAdapter(Context context, ArrayList<String> items) {
         this.context = context;
-        this.miListenerClick = miListenerClick;
         this.items = items;
     }
 
-    public interface MiListenerClick {
-        void clickItem(View itemView, int posicion);
-        boolean openGalery();
-    }
-
-
     @NonNull
     @Override
-    public RegisterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DetailDogAdapter.RegisterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_register, parent, false);
-        //context = parent.getContext();
-        return new RegisterViewHolder(view);
+        return new DetailDogAdapter.RegisterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RegisterViewHolder holder, int position) {
-        holder.imgFoto.setImageURI(items.get(position));
+    public void onBindViewHolder(@NonNull DetailDogAdapter.RegisterViewHolder holder, int position) {
+        String url = items.get(position);
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.ic_foto)
+                .centerCrop()
+                .into(holder.imgFoto);
     }
 
     @Override
@@ -56,11 +46,11 @@ public class RegisterAdapter extends RecyclerView.Adapter<RegisterAdapter.Regist
         return items.size();
     }
 
-    public ArrayList<Uri> getItems() {
+    public ArrayList<String> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<Uri> items) {
+    public void setItems(ArrayList<String> items) {
         this.items = items;
     }
 
@@ -78,7 +68,6 @@ public class RegisterAdapter extends RecyclerView.Adapter<RegisterAdapter.Regist
             switch (v.getId()){
                 case R.id.im_dog:
                     System.out.println("Click 1");
-                    miListenerClick.openGalery();
                     break;
                 default:
                     break;

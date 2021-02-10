@@ -52,8 +52,8 @@
     <string name="app_endup">Terminar solicitud</string>
 
     <string name="app_adopt_name">Ingresa su nombre</string>
-    <string name="app_adopt_age">Ingresa su edad</string>
-    <string name="app_adopt_weight">Ingresa su peso</string>
+    <string name="app_adopt_age">Ingresa su edad (años)</string>
+    <string name="app_adopt_weight">Ingresa su peso (Kg)</string>
 
     <string name="home_welcome">Bienvenido</string>
     <string name="home_line1">Nuestra misión es rescatar animales de la calle en pésimas condiciones, curarlos, esterilizarlos y darlos en adopción.</string>
@@ -110,5 +110,7 @@
     <!-- Error -->
 
     <string name="msg_error_ocurrio">Ocurrió un error inesperado, intentelo mas tarde.</string>
+
+    <string name="internal_storage">Internal storage</string>
 
 </resources>

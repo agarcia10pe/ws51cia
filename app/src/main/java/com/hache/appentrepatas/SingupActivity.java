@@ -11,9 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hache.appentrepatas.dto.BaseResponse;
+import com.hache.appentrepatas.dto.ClienteRequest;
 import com.hache.appentrepatas.helper.VeterinariaContract;
 import com.hache.appentrepatas.helper.VeterinariaDbHelper;
+import com.hache.appentrepatas.http.SolicitudClient;
+import com.hache.appentrepatas.http.SolicitudService;
+import com.hache.appentrepatas.util.EnumSolicitud;
 import com.hache.appentrepatas.util.General;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SingupActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,7 +31,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
 
     EditText correo, password, repassword, nombre, apellido, telefono;
     VeterinariaDbHelper dbHelper;
-
+    SolicitudService solicitudService;
     long newRowId = -1;
 
     @Override
@@ -39,6 +48,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         register_btn = (Button) findViewById(R.id.btn_singup_register);
         register_btn.setOnClickListener(this);
 
+        solicitudService = SolicitudClient.getInstance().getSolicitudService();
         dbHelper = new  VeterinariaDbHelper(this);
         //FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(getContext());
     }
@@ -48,12 +58,12 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()){
             case R.id.btn_singup_register:
                 if(validarRegistro()){
-                    crearUsuario();
-                    if(newRowId> 0){
-                        Toast.makeText(this, getString(R.string.msg_singup_exito), Toast.LENGTH_LONG).show();
-                        intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                    }
+                    registrarCliente();
+//                    if(newRowId> 0){
+//                        Toast.makeText(this, getString(R.string.msg_singup_exito), Toast.LENGTH_LONG).show();
+//                        intent = new Intent(this, LoginActivity.class);
+//                        startActivity(intent);
+//                    }
                 }
 
             default:
@@ -107,6 +117,42 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
+    void registrarCliente() {
+        ClienteRequest request = new ClienteRequest();
+        request.setCorreo(correo.getText().toString().trim());
+        request.setContrasena(password.getText().toString().trim());
+        request.setIdTipoUsu((byte)EnumSolicitud.TipoUsuario.CLIENTE.getCode());
+        request.setNombre(nombre.getText().toString().trim());
+        request.setApePaterno(apellido.getText().toString().trim());
+        request.setCelular(Integer.parseInt(telefono.getText().toString()));
+
+        Call<BaseResponse<String>> call = solicitudService.registrarCliente(request);
+
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.msg_error_ocurrio), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (response.body().getCodigo() == 0) {
+                    String mensaje = response.body().getData() != null ? response.body().getData() : getString(R.string.msg_error_ocurrio);
+                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Toast.makeText(getApplicationContext(), getString(R.string.msg_singup_exito), Toast.LENGTH_LONG).show();
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+
+            }
+        });
+    }
     void crearUsuario() {
 
         try{

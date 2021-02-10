@@ -44,7 +44,7 @@
                 android:layout_width="300dp"
                 android:hint="@string/user_mail"
                 android:textColor="@color/co_brown"
-                android:maxLength="20"
+                android:maxLength="40"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

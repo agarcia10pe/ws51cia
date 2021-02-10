@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.ContentFrameLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,17 +17,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.adapter.AdoptAdapter;
+import com.hache.appentrepatas.adapter.DetailDogAdapter;
 import com.hache.appentrepatas.adapter.RegisterAdapter;
+import com.hache.appentrepatas.dto.BaseResponse;
+import com.hache.appentrepatas.dto.PerroDTO;
+import com.hache.appentrepatas.dto.PerroPartialDTO;
+import com.hache.appentrepatas.http.SolicitudClient;
+import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.ui.register.RegisterFragment;
 import com.hache.appentrepatas.util.CenterZoomLayoutManager;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailFragment extends Fragment implements  View.OnClickListener , BaseFragment {
 
@@ -37,14 +49,79 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     private static final String TAG = "DetailFragment";
 
     private RecyclerView recyclerView;
-    private ArrayList<Uri> items;
-    private RegisterAdapter registerAdapter;
+    private ArrayList<String> items;
+    private DetailDogAdapter detailDogAdapter;
 
+    private EditText txtSexoPerro;
+    private EditText txtPesoPerro;
+    private EditText txtEdadPerro;
     private Button requestBtn;
+
+    private SolicitudService solicitudService;
+    private int idPerro;
+    private PerroDTO perroDTO;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        solicitudService = SolicitudClient.getInstance().getSolicitudService();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        idPerro = Integer.parseInt(getArguments().getString("idPerro"));
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_detail);
+        requestBtn = (Button) view.findViewById(R.id.btn_detail_request);
+        txtSexoPerro = view.findViewById(R.id.txt_sexo);
+        txtEdadPerro = view.findViewById(R.id.txt_edad);
+        txtPesoPerro = view.findViewById(R.id.txt_peso);
+
+        CenterZoomLayoutManager layoutManager = new CenterZoomLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+
+//        items = new ArrayList<String>();
+//        detailDogAdapter = new DetailDogAdapter(getContext(), items);
+//        recyclerView.setAdapter(detailDogAdapter);
+        requestBtn.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Call<BaseResponse<PerroDTO>> call = solicitudService.obtenerPerroPorId(idPerro);
+        call.enqueue(new Callback<BaseResponse<PerroDTO>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<PerroDTO>> call, Response<BaseResponse<PerroDTO>> response) {
+                if (response.isSuccessful()) {
+                    perroDTO = response.body().getData();
+                    txtEdadPerro.setText(perroDTO.getEdad());
+                    txtPesoPerro.setText(perroDTO.getPeso());
+                    txtSexoPerro.setText(perroDTO.getSexo());
+
+                    ((MainActivity) getActivity())
+                            .setActionBarTitle(perroDTO.getNombre());
+
+                    items = new ArrayList<String>();
+                    items.add(perroDTO.getImagen());
+                    items.add(perroDTO.getImagen());
+                    items.add(perroDTO.getImagen());
+
+                    detailDogAdapter = new DetailDogAdapter(getContext(), items);
+                    recyclerView.setAdapter(detailDogAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<PerroDTO>> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -60,48 +137,22 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
 
     public void onResume(){
         super.onResume();
-        ((MainActivity) getActivity())
-                .setActionBarTitle("Firulay");
+
+        if (perroDTO != null) {
+            ((MainActivity) getActivity()).setActionBarTitle(perroDTO.getNombre());
+        }
     }
 
     public boolean onBackPressed() {
-        //((MainActivity)getActivity()).setFragment(6);
+        ((MainActivity)getActivity()).setFragment(6, null, false);
         return false;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_detail);
-        requestBtn = (Button) view.findViewById(R.id.btn_detail_request);
-
-        CenterZoomLayoutManager layoutManager = new CenterZoomLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        items = new ArrayList<Uri>();
-
-        Uri uriImage = Uri.parse("android.resource://" +  getContext().getPackageName() +"/"+R.drawable.ic_foto);
-        items.add(uriImage);
-        uriImage = Uri.parse("android.resource://" +  getContext().getPackageName() +"/"+R.drawable.ic_foto);
-        items.add(uriImage);
-        uriImage = Uri.parse("android.resource://" +  getContext().getPackageName() +"/"+R.drawable.ic_foto);
-        items.add(uriImage);
-
-        registerAdapter = new RegisterAdapter(getContext(), new DetailFragment.OnSelectClick(), items);
-        recyclerView.setAdapter(registerAdapter);
-        requestBtn.setOnClickListener(this);
-
-
-        return view;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_detail_request:
-                ((MainActivity) getActivity()).setFragment(2);
+                ((MainActivity) getActivity()).setFragment(2,  null, true);
                 //((MainActivity) getActivity()).setFragment(new ConfirmFragment());
                 break;
             default:
@@ -109,7 +160,6 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
 
         }
     }
-
 
     private class OnSelectClick implements RegisterAdapter.MiListenerClick{
 
@@ -125,5 +175,4 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
            return true;
         }
     }
-
 }

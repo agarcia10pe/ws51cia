@@ -54,7 +54,7 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_confirm_request:
-                ((MainActivity) getActivity()).setFragment(3);
+                ((MainActivity) getActivity()).setFragment(3, null, true);
                 //((MainActivity) getActivity()).setFragment(new HomeFragment());
 /*
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

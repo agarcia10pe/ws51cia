@@ -37,9 +37,9 @@
                 android:text="@string/app_detail_sexo" />
 
             <EditText
+                android:id="@+id/txt_sexo"
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
-                android:text="Macho"
                 android:enabled="false"
                 android:textAlignment="center"
                 android:textColor="@color/co_brown"
@@ -62,9 +62,9 @@
                 android:text="@string/app_detail_peso" />
 
             <EditText
+                android:id="@+id/txt_peso"
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
-                android:text="9 kg."
                 android:enabled="false"
                 android:textAlignment="center"
                 android:textColor="@color/co_brown"
@@ -87,9 +87,9 @@
                 android:text="@string/app_detail_edad" />
 
             <EditText
+                android:id="@+id/txt_edad"
                 android:layout_marginLeft="5dp"
                 android:layout_width="250dp"
-                android:text="3 años"
                 android:enabled="false"
                 android:textAlignment="center"
                 android:textColor="@color/co_brown"

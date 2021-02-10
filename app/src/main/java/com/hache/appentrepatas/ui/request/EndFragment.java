@@ -51,7 +51,7 @@ public class EndFragment extends Fragment implements View.OnClickListener, BaseF
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_request_end:
-                ((MainActivity) getActivity()).setFragment(5);
+                ((MainActivity) getActivity()).setFragment(5, null, true);
                 break;
             default:
                 break;

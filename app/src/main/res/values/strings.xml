@@ -24,7 +24,7 @@
     <string name="menu_settings">Configuración</string>
     <string name="menu_logoff">Cerrar sesión</string>
 
-    <string name="title_register">Registro de perro</string>
+    <string name="title_register">Registro de Perro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -44,7 +44,7 @@
     <string name="user_repeat">Repite tu contraseña</string>
     <string name="login_forgot">¿Olvidaste tu contraseña?</string>
 
-    <string name="user_name">Ingresa tu nombre</string>
+    <string name="user_name">Ingresa tu primer nombre.</string>
     <string name="user_firstname">Ingresa tu apellido paterno</string>
     <string name="user_cellphone">Ingresa tu número celular</string>
 
@@ -53,7 +53,7 @@
 
     <string name="app_adopt_name">Ingresa su nombre</string>
     <string name="app_adopt_age">Ingresa su edad (años)</string>
-    <string name="app_adopt_weight">Ingresa su peso (Kg)</string>
+    <string name="app_adopt_weight">Ingresa su peso (Kg.)</string>
 
     <string name="home_welcome">Bienvenido</string>
     <string name="home_line1">Nuestra misión es rescatar animales de la calle en pésimas condiciones, curarlos, esterilizarlos y darlos en adopción.</string>
@@ -84,27 +84,27 @@
     <string name="msg_token_fmt">Tel: (01) 351-0088</string>
 
     <!-- Mensaje -->
-    <string name="msg_login_usuario">Ingresar correo</string>
+    <string name="msg_login_usuario">Por favor, ingrese su correo electrónico.</string>
     <string name="msg_login_password">La contraseña no puede ser vacío. Corregir.</string>
     <string name="msg_login_incorecto">Correo o contraseña, inválidos. Corregir.</string>
     <string name="msg_login_exito">Login exitoso.</string>
 
     <string name="msg_singup_exito">Registro exitoso</string>
-    <string name="msg_singup_mail">Ingresar correo</string>
+    <string name="msg_singup_mail">Por favor, ingrese su correo electrónico.</string>
     <string name="msg_singup_valMail">El correo electrónico ingresado es incorrecto. Corregir.</string>
     <string name="msg_singup_password">La contraseña no puede ser vacío. Corregir.</string>
-    <string name="msg_singup_repasswod">El repetir contraseña no puede ser vacío. Corregir</string>
+    <string name="msg_singup_repasswod">La segunda contraseña ingresada no puede ser vacía. Corregir.</string>
     <string name="msg_singup_valPass">Las contraseñas ingresadas deben ser las mismas. Corregir.</string>
-    <string name="msg_singup_nombre">Ingresar nombre</string>
-    <string name="msg_singup_apellido">Ingresar apellidos</string>
-    <string name="msg_singup_telefono">Ingresar telefono</string>
+    <string name="msg_singup_nombre">Por favor, ingrese su primer nombre.</string>
+    <string name="msg_singup_apellido">Por favor, ingrese su apellido paterno.</string>
+    <string name="msg_singup_telefono">Por favor, ingrese su número celular.</string>
     <string name="msg_singup_format_telefono">El número celular debe ser un valor numérico de 9 dígitos. Corregir.</string>
 
     <string name="msg_register_nombre">El nombre del perro no puede ser vacío. Corregir.</string>
-    <string name="msg_register_sexo">Seleccionar sexo.</string>
+    <string name="msg_register_sexo">Por favor, seleccione el sexo del perro.</string>
     <string name="msg_register_edad">La edad (en años) del perro ingresada es incorrecta. Corregir."</string>
     <string name="msg_register_peso">El peso (en kilogramos) del perro ingresado es incorrecto. Corregir.</string>
-    <string name="msg_register_foto">Agregar foto</string>
+    <string name="msg_register_foto">Por favor, agregue una fotografía del perro.</string>
     <string name="msg_register_exito">Registro exitoso.</string>
     <string name="msg_register_fallo">Revisar los datos ingresados.</string>
     <!-- Error -->

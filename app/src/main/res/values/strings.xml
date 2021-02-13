@@ -112,5 +112,6 @@
     <string name="msg_error_ocurrio">Ocurrió un error inesperado, intentelo mas tarde.</string>
 
     <string name="internal_storage">Internal storage</string>
+    <string name="label_NroSolicitud">N°  Solicitud:</string>
 
 </resources>

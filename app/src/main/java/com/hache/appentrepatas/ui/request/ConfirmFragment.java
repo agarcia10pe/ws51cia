@@ -17,26 +17,57 @@ import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.HomeActivity;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
+import com.hache.appentrepatas.dto.BaseResponse;
+import com.hache.appentrepatas.dto.ConfirmacionSolicitudRequest;
+import com.hache.appentrepatas.http.SolicitudClient;
+import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.ui.home.HomeFragment;
+import com.hache.appentrepatas.util.SeguridadUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmFragment extends Fragment implements View.OnClickListener, BaseFragment {
 
     Button requestBtn;
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+    private int idSolicitud;
+    private SolicitudService solicitudService;
+
     public void onResume(){
         super.onResume();
-        ((MainActivity) getActivity())
-                .setActionBarTitle("Solicitud de adopción");
+        ((MainActivity) getActivity()).setActionBarTitle("Solicitud de adopción");
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        solicitudService = SolicitudClient.getInstance().getSolicitudService();
+
         if (getArguments() != null) {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Call<BaseResponse<String>> call = solicitudService.eliminarSolicitudInicializada(SeguridadUtil.getUsuario().getCorreo());
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public boolean onBackPressed() {
-        //((MainActivity)getActivity()).setFragment(6);
+        ((MainActivity)getActivity()).setFragment(6, null, false);
         return true;
     }
 
@@ -44,6 +75,7 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        idSolicitud = Integer.parseInt(getArguments().getString("idSolicitud"));
         View view = inflater.inflate(R.layout.fragment_confirm, container, false);
         requestBtn = (Button) view.findViewById(R.id.btn_confirm_request);
         requestBtn.setOnClickListener(this);
@@ -54,17 +86,32 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_confirm_request:
-                ((MainActivity) getActivity()).setFragment(3, null, true);
-                //((MainActivity) getActivity()).setFragment(new HomeFragment());
-/*
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment,new HomeFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();*/
+                confirmarSolicitudAdopcion();
                 break;
             default:
                 break;
         }
+    }
+
+    private void confirmarSolicitudAdopcion() {
+        ConfirmacionSolicitudRequest request = new ConfirmacionSolicitudRequest();
+        request.setIdSolicitud(idSolicitud);
+        Call<BaseResponse<String>> call = solicitudService.confirmarSolicitud(request);
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                if (!response.isSuccessful()) return;
+
+                if (response.body().getCodigo() == 1) {
+                    ((MainActivity) getActivity()).setFragment(3, null, true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+
+            }
+        });
     }
 
 }

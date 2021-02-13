@@ -14,4 +14,21 @@ public class EnumSolicitud {
             return this.codigo;
         }
     }
+
+    public enum EstadoSolicitud {
+        INICIADO (1),
+        PENDIENTE (2),
+        APROBADO (3),
+        RECHAZADO (4),
+        FINALIZADO (5);
+
+        private int codigo;
+        private EstadoSolicitud(int codigo) {
+            this.codigo = codigo;
+        }
+
+        public int getCode() {
+            return this.codigo;
+        }
+    }
 }

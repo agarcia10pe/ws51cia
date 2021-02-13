@@ -1,5 +1,6 @@
 package com.hache.appentrepatas.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,46 +11,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
 import com.hache.appentrepatas.bean.Adopt;
+import com.hache.appentrepatas.dto.SolicitudPartialDTO;
+import com.hache.appentrepatas.util.EnumSolicitud;
 
 import java.util.ArrayList;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
     private RequestAdapter.MiListenerClick miListenerClick;
-    private ArrayList<Adopt> adopts;
+    private Context context;
+    private ArrayList<SolicitudPartialDTO> listaSolicitud;
     private Adopt[] item = null;
 
-    public RequestAdapter(RequestAdapter.MiListenerClick miListenerClick, ArrayList<Adopt> item) {
+    public RequestAdapter(RequestAdapter.MiListenerClick miListenerClick, ArrayList<SolicitudPartialDTO> listaSolicitud, Context context) {
         this.miListenerClick = miListenerClick;
-        this.adopts = item;
+        this.listaSolicitud = listaSolicitud;
+        this.context = context;
     }
 
     public interface MiListenerClick {
         void clickItem(View itemView, int posicion);
-    }
-
-    public class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView txtName;
-        private ImageView imgFoto;
-        private Button button;
-
-        public RequestViewHolder(View itemView) {
-            super(itemView);
-            button = (Button)itemView.findViewById(R.id.btn_request_finalize);
-            button.setOnClickListener(this);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                default:
-                    miListenerClick.clickItem(itemView,getAdapterPosition());
-                    break;
-            }
-        }
     }
 
     @NonNull
@@ -61,22 +45,62 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
     @Override
     public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
-        String foto, nombre;
-        foto = adopts.get(position).getFoto();
-        nombre = adopts.get(position).getNombre();
 
+        SolicitudPartialDTO solicitudPartialDTO = listaSolicitud.get(position);
+        holder.txtName.setText(solicitudPartialDTO.getNombrePerro());
+        holder.txtState.setText(solicitudPartialDTO.getDescripcionEstado());
+        holder.txtSolicitud.setText(String.valueOf(solicitudPartialDTO.getIdSolicitud()));
+
+        if (solicitudPartialDTO.getIdEstSolicitud() != EnumSolicitud.EstadoSolicitud.APROBADO.getCode())
+            holder.button.setVisibility(View.INVISIBLE);
+
+        Glide.with(context)
+                .load(listaSolicitud.get(position).getImgPerro())
+                .centerCrop()
+                .into(holder.imgFoto);
     }
 
     @Override
     public int getItemCount() {
-        return adopts.size();
+        return listaSolicitud.size();
     }
 
-    public ArrayList<Adopt> getAdopt() {
-        return adopts;
+    public ArrayList<SolicitudPartialDTO> getAdopt() {
+        return listaSolicitud;
     }
 
-    public void setAdopt(ArrayList<Adopt> adopts) {
-        this.adopts = adopts;
+    public void setAdopt(ArrayList<SolicitudPartialDTO> listaSolicitud) {
+        this.listaSolicitud = listaSolicitud;
+    }
+
+    public class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView txtName;
+        private TextView txtState;
+        private TextView txtSolicitud;
+        private ImageView imgFoto;
+        private Button button;
+
+        public RequestViewHolder(View itemView) {
+            super(itemView);
+            button = itemView.findViewById(R.id.btn_request_finalize);
+            txtName = itemView.findViewById(R.id.txt_NombrePerro);
+            txtSolicitud = itemView.findViewById(R.id.txt_nroSolicitud);
+            imgFoto = itemView.findViewById(R.id.im_request);
+            txtState = itemView.findViewById(R.id.txt_state);
+
+            button.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                default:
+                    SolicitudPartialDTO solicitudPartialDTO = listaSolicitud.get(getAdapterPosition());
+                    if (solicitudPartialDTO.getIdEstSolicitud() == EnumSolicitud.EstadoSolicitud.APROBADO.getCode())
+                        miListenerClick.clickItem(itemView, getAdapterPosition());
+                    break;
+            }
+        }
     }
 }

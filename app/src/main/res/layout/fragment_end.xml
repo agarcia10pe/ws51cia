@@ -20,9 +20,10 @@
             android:text="@string/app_requed_end" />
 
         <ImageView
+            android:id="@+id/im_photo"
             android:layout_marginTop="20dp"
             android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_height="320dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_add" />
 

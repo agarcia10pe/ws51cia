@@ -23,6 +23,7 @@ import com.hache.appentrepatas.ui.request.RequestFragment;
 import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.EnumSolicitud;
 import com.hache.appentrepatas.util.General;
+import com.hache.appentrepatas.util.SeguridadUtil;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) == null) {
+        if (!SeguridadUtil.esAutenticado()) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             return;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         nameTxt.setText(Constants.user);
 
-        if(SharedPreferencesManager.getSomeIntValue(Constants.PREF_TIPO_USUARIO) == EnumSolicitud.TipoUsuario.ADMINISTRADOR.getCode())
+        if(SeguridadUtil.getUsuario().getIdTipoUsu() == EnumSolicitud.TipoUsuario.ADMINISTRADOR.getCode())
         {
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);
@@ -163,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 ConfirmFragment confirmFragment = new ConfirmFragment();
+                if (bundle != null)
+                    confirmFragment.setArguments(bundle);
                 transaction.replace(R.id.nav_host_fragment,confirmFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -179,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 manager = this.getSupportFragmentManager();
                 transaction = manager.beginTransaction();
                 EndFragment endFragment = new EndFragment();
+                if (bundle != null)
+                    endFragment.setArguments(bundle);
                 transaction.replace(R.id.nav_host_fragment,endFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -264,12 +269,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     private void logout() {
-        SharedPreferencesManager.remove(Constants.PREF_USER);
-        SharedPreferencesManager.remove(Constants.PREF_NOMBRE);
-        SharedPreferencesManager.remove(Constants.PREF_APELLIDO);
-        SharedPreferencesManager.remove(Constants.PREF_TIPO_USUARIO);
-
+        SeguridadUtil.logout();
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }

@@ -16,6 +16,10 @@ public class UsuarioDTO {
     @Expose
     private String apePaterno;
 
+    @SerializedName("correo")
+    @Expose
+    private String correo;
+
     public byte getIdTipoUsu() {
         return idTipoUsu;
     }
@@ -38,5 +42,13 @@ public class UsuarioDTO {
 
     public void setApePaterno(String apePaterno) {
         this.apePaterno = apePaterno;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }

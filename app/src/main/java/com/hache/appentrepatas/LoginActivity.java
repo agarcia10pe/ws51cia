@@ -18,6 +18,7 @@ import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.General;
+import com.hache.appentrepatas.util.SeguridadUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
+        if (SeguridadUtil.esAutenticado()) {
             Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -77,13 +78,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             if (response.body().getCodigo() == 1) {
                                 Toast.makeText(getApplicationContext() , getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
-
                                 Constants.user = response.body().getData().getNombre() + " " + response.body().getData().getApePaterno();
-                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_USER, request.getCorreo());
-                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_NOMBRE, response.body().getData().getNombre());
-                                SharedPreferencesManager.setSomeStringValue(Constants.PREF_APELLIDO, response.body().getData().getApePaterno());
-                                SharedPreferencesManager.setSomeIntValue(Constants.PREF_TIPO_USUARIO, response.body().getData().getIdTipoUsu());
-
+                                SeguridadUtil.asignarUsuario(response.body().getData());
                                 intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 return;

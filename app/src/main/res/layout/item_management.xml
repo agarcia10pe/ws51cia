@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="190dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -27,6 +27,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txt_NombrePerro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/size_item"
@@ -63,8 +64,7 @@
                     android:text="@string/app_rechazar" />
 
             </LinearLayout>
-
-
+            s
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -88,6 +88,7 @@
                 android:background="#B58D66">
 
                 <TextView
+                    android:id="@+id/txt_NombreCliente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/size_item"
@@ -112,11 +113,37 @@
                     android:id="@+id/btn_mangament_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_request_ok" />
+                    android:text="@string/app_aprobar" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:minWidth="180dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="0dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_NroSolicitud"
+            android:textSize="@dimen/size_item2"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txt_nroSolicitud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/size_item"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

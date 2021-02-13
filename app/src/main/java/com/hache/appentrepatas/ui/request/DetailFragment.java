@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.hache.appentrepatas.BaseFragment;
 import com.hache.appentrepatas.MainActivity;
@@ -29,10 +30,13 @@ import com.hache.appentrepatas.adapter.RegisterAdapter;
 import com.hache.appentrepatas.dto.BaseResponse;
 import com.hache.appentrepatas.dto.PerroDTO;
 import com.hache.appentrepatas.dto.PerroPartialDTO;
+import com.hache.appentrepatas.dto.SolicitarAdopcionRequest;
+import com.hache.appentrepatas.helper.SharedPreferencesManager;
 import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.ui.register.RegisterFragment;
 import com.hache.appentrepatas.util.CenterZoomLayoutManager;
+import com.hache.appentrepatas.util.SeguridadUtil;
 
 import java.util.ArrayList;
 
@@ -81,10 +85,6 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
 
         CenterZoomLayoutManager layoutManager = new CenterZoomLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(layoutManager);
-
-//        items = new ArrayList<String>();
-//        detailDogAdapter = new DetailDogAdapter(getContext(), items);
-//        recyclerView.setAdapter(detailDogAdapter);
         requestBtn.setOnClickListener(this);
 
         return view;
@@ -124,6 +124,43 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_detail_request:
+                iniciarSolicitudAdopcion();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void iniciarSolicitudAdopcion() {
+        SolicitarAdopcionRequest request = new SolicitarAdopcionRequest();
+        request.setIdPerro((short) idPerro);
+        request.setCorreo(SeguridadUtil.getUsuario().getCorreo());
+        Call<BaseResponse<String>> call = solicitudService.solicitarAdopcion(request);
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                if (!response.isSuccessful()) return;
+                if (response.body().getCodigo() == 0) {
+                    Toast.makeText(getContext(), response.body().getData(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putString("idSolicitud", response.body().getData());
+                ((MainActivity) getActivity()).setFragment(2,  bundle, true);
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
@@ -146,19 +183,6 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
         ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.menu_adopt));
         ((MainActivity)getActivity()).setFragment(6, null, false);
         return false;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_detail_request:
-                ((MainActivity) getActivity()).setFragment(2,  null, true);
-                //((MainActivity) getActivity()).setFragment(new ConfirmFragment());
-                break;
-            default:
-                break;
-
-        }
     }
 
     private class OnSelectClick implements RegisterAdapter.MiListenerClick{

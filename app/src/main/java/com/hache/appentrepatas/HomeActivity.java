@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hache.appentrepatas.helper.SharedPreferencesManager;
 import com.hache.appentrepatas.util.Constants;
+import com.hache.appentrepatas.util.SeguridadUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -27,7 +28,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (SharedPreferencesManager.getSomeStringValue(Constants.PREF_USER) != null) {
+        if (SeguridadUtil.esAutenticado()) {
             Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);

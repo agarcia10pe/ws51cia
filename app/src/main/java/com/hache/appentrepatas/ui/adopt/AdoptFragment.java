@@ -37,10 +37,15 @@ import retrofit2.Response;
 public class AdoptFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView recyclerView ;
-    private ArrayList<Adopt> adopts;
     private AdoptDogAdapter adoptDogAdapter;
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     SolicitudService solicitudService;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        solicitudService = SolicitudClient.getInstance().getSolicitudService();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +62,6 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        solicitudService = SolicitudClient.getInstance().getSolicitudService();
         Call<BaseResponse<ArrayList<PerroPartialDTO>>> call = solicitudService.listarPerro();
         call.enqueue(new Callback<BaseResponse<ArrayList<PerroPartialDTO>>>() {
             @Override
@@ -77,6 +81,12 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
 
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.menu_adopt));
     }
 
     private class OnSelectClick implements AdoptDogAdapter.MiListenerClick{

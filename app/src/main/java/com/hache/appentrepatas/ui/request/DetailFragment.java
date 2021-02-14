@@ -36,6 +36,7 @@ import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.ui.register.RegisterFragment;
 import com.hache.appentrepatas.util.CenterZoomLayoutManager;
+import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.SeguridadUtil;
 
 import java.util.ArrayList;
@@ -93,11 +94,12 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        ((MainActivity) getActivity()).showLoading(null);
         Call<BaseResponse<PerroDTO>> call = solicitudService.obtenerPerroPorId(idPerro);
         call.enqueue(new Callback<BaseResponse<PerroDTO>>() {
             @Override
             public void onResponse(Call<BaseResponse<PerroDTO>> call, Response<BaseResponse<PerroDTO>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (response.isSuccessful()) {
                     perroDTO = response.body().getData();
                     txtEdadPerro.setText(perroDTO.getEdad());
@@ -118,7 +120,8 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
 
             @Override
             public void onFailure(Call<BaseResponse<PerroDTO>> call, Throwable t) {
-
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -135,6 +138,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
     }
 
     private void iniciarSolicitudAdopcion() {
+        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
         SolicitarAdopcionRequest request = new SolicitarAdopcionRequest();
         request.setIdPerro((short) idPerro);
         request.setCorreo(SeguridadUtil.getUsuario().getCorreo());
@@ -142,6 +146,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
         call.enqueue(new Callback<BaseResponse<String>>() {
             @Override
             public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (!response.isSuccessful()) return;
                 if (response.body().getCodigo() == 0) {
                     Toast.makeText(getContext(), response.body().getData(), Toast.LENGTH_LONG).show();
@@ -149,13 +154,14 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
                 }
 
                 Bundle bundle = new Bundle();
-                bundle.putString("idSolicitud", response.body().getData());
+                bundle.putString(Constants.ID_SOLICITUD, response.body().getData());
                 ((MainActivity) getActivity()).setFragment(2,  bundle, true);
             }
 
             @Override
             public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -12,4 +12,6 @@ public class Constants {
     public static final String PREF_NOMBRE = "PREF_NOMBRE";
     public static final String PREF_APELLIDO = "PREF_APELLIDO";
     public static final String PREF_TIPO_USUARIO = "PREF_TIPO_USUARIO";
+
+    public static final  String ID_SOLICITUD = "ID_SOLICITUD";
 }

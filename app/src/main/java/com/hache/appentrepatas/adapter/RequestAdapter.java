@@ -98,7 +98,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
                 default:
                     SolicitudPartialDTO solicitudPartialDTO = listaSolicitud.get(getAdapterPosition());
                     if (solicitudPartialDTO.getIdEstSolicitud() == EnumSolicitud.EstadoSolicitud.APROBADO.getCode())
-                        miListenerClick.clickItem(itemView, getAdapterPosition());
+                        miListenerClick.clickItem(itemView, solicitudPartialDTO.getIdSolicitud());
                     break;
             }
         }

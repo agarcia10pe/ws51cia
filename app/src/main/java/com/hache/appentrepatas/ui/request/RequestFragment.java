@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
@@ -24,6 +25,7 @@ import com.hache.appentrepatas.dto.SolicitudPartialDTO;
 import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
 import com.hache.appentrepatas.ui.adopt.AdoptFragment;
+import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.SeguridadUtil;
 
 import java.security.PublicKey;
@@ -94,10 +96,16 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        listarSolicitudes();
+    }
+
+    private void listarSolicitudes() {
+        ((MainActivity) getActivity()).showLoading(null);
         Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call = solicitudService.listarSolicitudesPorCorreo(SeguridadUtil.getUsuario().getCorreo());
         call.enqueue(new Callback<BaseResponse<ArrayList<SolicitudPartialDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call, Response<BaseResponse<ArrayList<SolicitudPartialDTO>>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (!response.isSuccessful()) return;
 
                 requestAdapter = new RequestAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -106,7 +114,8 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call, Throwable t) {
-
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -123,8 +132,10 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
     private class OnSelectClick implements RequestAdapter.MiListenerClick{
 
         @Override
-        public void clickItem(View itemView, int posicion) {
-            ((MainActivity) getActivity()).setFragment(4, null, true);
+        public void clickItem(View itemView, int idSolicitud) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.ID_SOLICITUD, idSolicitud);
+            ((MainActivity) getActivity()).setFragment(4, bundle, true);
         }
     }
 }

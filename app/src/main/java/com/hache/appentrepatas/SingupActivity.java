@@ -2,6 +2,7 @@ package com.hache.appentrepatas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,8 +29,8 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
 
     Button register_btn;
     Intent intent;
-
     EditText correo, password, repassword, nombre, apellido, telefono;
+    ProgressDialog progressDialog;
     VeterinariaDbHelper dbHelper;
     SolicitudService solicitudService;
     long newRowId = -1;
@@ -38,7 +39,14 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singup);
+        initView();
+        initRetrofit();
+        initProgressDialog();
+        dbHelper = new  VeterinariaDbHelper(this);
+        //FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(getContext());
+    }
 
+    private void initView() {
         correo = (EditText)  findViewById(R.id.et_singup_correo);
         password = (EditText)  findViewById(R.id.et_singup_password);
         repassword = (EditText)  findViewById(R.id.et_singup_repassword);
@@ -47,31 +55,32 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         telefono = (EditText)  findViewById(R.id.et_singup_telefono);
         register_btn = (Button) findViewById(R.id.btn_singup_register);
         register_btn.setOnClickListener(this);
+    }
 
+    private void initRetrofit() {
         solicitudService = SolicitudClient.getInstance().getSolicitudService();
-        dbHelper = new  VeterinariaDbHelper(this);
-        //FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(getContext());
+    }
+
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage(getString(R.string.mensaje_validar_credenciales));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_singup_register:
-                if(validarRegistro()){
+                if (validarRegistro())
                     registrarCliente();
-//                    if(newRowId> 0){
-//                        Toast.makeText(this, getString(R.string.msg_singup_exito), Toast.LENGTH_LONG).show();
-//                        intent = new Intent(this, LoginActivity.class);
-//                        startActivity(intent);
-//                    }
-                }
-
+                break;
             default:
                 break;
         }
-    }//
+    }
 
-    Boolean validarRegistro() {
+    private boolean validarRegistro() {
         if (correo.getText().toString().trim().length() == 0) {
             Toast.makeText(this, getString(R.string.msg_singup_mail), Toast.LENGTH_LONG).show();
             return false;
@@ -118,6 +127,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void registrarCliente() {
+        progressDialog.show();
         ClienteRequest request = new ClienteRequest();
         request.setCorreo(correo.getText().toString().trim());
         request.setContrasena(password.getText().toString().trim());
@@ -131,6 +141,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         call.enqueue(new Callback<BaseResponse<String>>() {
             @Override
             public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                progressDialog.dismiss();
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), getString(R.string.msg_error_ocurrio), Toast.LENGTH_LONG).show();
                     return;
@@ -149,7 +160,8 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }

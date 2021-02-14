@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
@@ -61,11 +62,16 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        listarPerros();
+    }
 
+    private void listarPerros() {
+        ((MainActivity) getActivity()).showLoading(null);
         Call<BaseResponse<ArrayList<PerroPartialDTO>>> call = solicitudService.listarPerro();
         call.enqueue(new Callback<BaseResponse<ArrayList<PerroPartialDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<PerroPartialDTO>>> call, Response<BaseResponse<ArrayList<PerroPartialDTO>>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (!response.isSuccessful()) return;
 
                 adoptDogAdapter = new AdoptDogAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -74,7 +80,8 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<PerroPartialDTO>>> call, Throwable t) {
-
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }

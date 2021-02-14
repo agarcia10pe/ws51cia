@@ -10,6 +10,7 @@ import com.hache.appentrepatas.dto.PerroPartialDTO;
 import com.hache.appentrepatas.dto.SolicitarAdopcionRequest;
 import com.hache.appentrepatas.dto.SolicitudDTO;
 import com.hache.appentrepatas.dto.SolicitudPartialDTO;
+import com.hache.appentrepatas.dto.TerminoSolicitudRequest;
 import com.hache.appentrepatas.dto.UsuarioDTO;
 
 import java.util.ArrayList;
@@ -47,6 +48,9 @@ public interface SolicitudService {
 
     @POST("api/solicitud/confirmar-solicitud")
     Call<BaseResponse<String>> confirmarSolicitud(@Body ConfirmacionSolicitudRequest request);
+
+    @POST("api/solicitud/terminar-solicitud")
+    Call<BaseResponse<String>> terminarSolicitud(@Body TerminoSolicitudRequest request);
 
     @POST("api/solicitud/rechazar-solicitud")
     Call<BaseResponse<String>> rechazarSolicitud(@Body AprobacionSolicitudRequest request);

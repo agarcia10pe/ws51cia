@@ -163,6 +163,7 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
 
     void registrarPerro() {
         if (!valRegistro()) return;
+        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
         PerroDTO perroDTO = new PerroDTO();
         perroDTO.setNombre(nombreTxt.getText().toString());
         perroDTO.setEdad(edadTxt.getText().toString());
@@ -179,6 +180,7 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
         call.enqueue(new Callback<BaseResponse<String>>() {
             @Override
             public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (!response.isSuccessful()) return;
                 if (response.body().getCodigo() == 0) return;
 
@@ -188,7 +190,8 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
 
             @Override
             public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }

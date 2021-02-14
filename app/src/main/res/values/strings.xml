@@ -113,5 +113,21 @@
 
     <string name="internal_storage">Internal storage</string>
     <string name="label_NroSolicitud">N°  Solicitud:</string>
-
+    <string name="btn_Aceptar">Aceptar</string>
+    <string name="btn_Cancelar">Cancelar</string>
+    <string name="titulo_confirmacion">Confirmación</string>
+    <string name="titulo_finalizar_solicitud">Finalizar solicitud</string>
+    <string name="mensaje_cerrar_sesion">¿Desea cerrar la sesión?</string>
+    <string name="mensaje_confirmar_solicitud">¿Desea confirmar la solicitud?</string>
+    <string name="mensaje_aprobar_solicitud">¿Desea aprobar la solicitud?</string>
+    <string name="mensaje_rechazar_solicitud">¿Desea rechazar la solicitud?</string>
+    <string name="mensaje_terminar_solicitud">¿Desea terminar la solicitud?</string>
+    <string name="mensaje_error_carga_foto">Debe cargar una fotografía antes de finalizar la solicitud.</string>
+    <string name="mensaje_error_conexion">Problemas de conexión. Inténtelo de nuevo.</string>
+    <string name="mensaje_solicitud_aprobada">Solicitud aprobada.</string>
+    <string name="mensaje_solicitud_rechazada">Solicitud rechazada.</string>
+    <string name="mensaje_solicitud_terminada">Solicitud finalizada exitosamente.</string>
+    <string name="mensaje_procesando">Procesando...</string>
+    <string name="mensaje_loading">Cargando...</string>
+    <string name="mensaje_validar_credenciales">Validando Credenciales...</string>
 </resources>

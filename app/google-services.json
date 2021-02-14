@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "988308087066",
-    "project_id": "entrepatas-5ac1e",
-    "storage_bucket": "entrepatas-5ac1e.appspot.com"
+    "project_number": "102714012425",
+    "project_id": "entrepatas-1fc62",
+    "storage_bucket": "entrepatas-1fc62.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988308087066:android:c2e927e7da2c8a68e44ca3",
+        "mobilesdk_app_id": "1:102714012425:android:07a358a3a6f288c22f59d8",
         "android_client_info": {
           "package_name": "com.hache.appentrepatas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "988308087066-1o25tbj7qoc2c6tvvuikbi2ap799oaa0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hache.appentrepatas",
-            "certificate_hash": "8aa346a6ac783438238435a8d3d6fa4fddc1dfff"
-          }
-        },
-        {
-          "client_id": "988308087066-et8bud9nfgamnkm06nituck2saggukv3.apps.googleusercontent.com",
+          "client_id": "102714012425-tacvl0ah7tov4ap9naoeist3v63b32n0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC0YukymsWQGESed-Bb0JePNBDqA-OdxjE"
+          "current_key": "AIzaSyAyg4SLYcw7PCrOgFS2sjI6k6VpIBeExNo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "988308087066-et8bud9nfgamnkm06nituck2saggukv3.apps.googleusercontent.com",
+              "client_id": "102714012425-tacvl0ah7tov4ap9naoeist3v63b32n0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

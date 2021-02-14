@@ -32,8 +32,8 @@ public class ManagementAdapter extends RecyclerView.Adapter<ManagementAdapter.Ma
     }
 
     public interface MiListenerClick {
-        void aprobarSolicitud(View itemView, int posicion);
-        void rechazarSolicitud(View itemView, int posicion);
+        void aprobar(View itemView, int posicion);
+        void rechazar(View itemView, int posicion);
     }
 
     @NonNull
@@ -101,10 +101,10 @@ public class ManagementAdapter extends RecyclerView.Adapter<ManagementAdapter.Ma
             int idSolicitud = listaSolicitud.get(getAdapterPosition()).getIdSolicitud();
             switch (v.getId()){
                 case R.id.btn_mangament_request:
-                    miListenerClick.aprobarSolicitud(itemView, idSolicitud);
+                    miListenerClick.aprobar(itemView, idSolicitud);
                     break;
                 case R.id.btn_mangament_cancel:
-                    miListenerClick.rechazarSolicitud(itemView, idSolicitud);
+                    miListenerClick.rechazar(itemView, idSolicitud);
                     break;
                 default:
                     break;

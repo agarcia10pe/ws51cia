@@ -1,5 +1,7 @@
 package com.hache.appentrepatas.ui.request;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,21 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
-import com.hache.appentrepatas.adapter.AdoptAdapter;
 import com.hache.appentrepatas.adapter.ManagementAdapter;
 import com.hache.appentrepatas.bean.Adopt;
 import com.hache.appentrepatas.dto.AprobacionSolicitudRequest;
 import com.hache.appentrepatas.dto.BaseResponse;
 import com.hache.appentrepatas.dto.SolicitudDTO;
-import com.hache.appentrepatas.dto.SolicitudPartialDTO;
 import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
-import com.hache.appentrepatas.ui.adopt.AdoptFragment;
 import com.hache.appentrepatas.util.SeguridadUtil;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,12 +64,16 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_management, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_management);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        return view;
     }
 
     @Override
@@ -77,10 +83,12 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     }
 
     private void listarSolicitud() {
+        ((MainActivity) getActivity()).showLoading(null);
         Call<BaseResponse<ArrayList<SolicitudDTO>>> call = solicitudService.listarSolicitudes();
         call.enqueue(new Callback<BaseResponse<ArrayList<SolicitudDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<SolicitudDTO>>> call, Response<BaseResponse<ArrayList<SolicitudDTO>>> response) {
+                ((MainActivity) getActivity()).closeLoading();
                 if (!response.isSuccessful()) return;
 
                 managementAdapter = new ManagementAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -89,7 +97,8 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<SolicitudDTO>>> call, Throwable t) {
-
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -105,47 +114,103 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     private class OnSelectClick implements ManagementAdapter.MiListenerClick{
 
         @Override
-        public void aprobarSolicitud(View itemView, int idSolicitud) {
-            AprobacionSolicitudRequest request = new AprobacionSolicitudRequest();
-            request.setIdSolicitud(idSolicitud);
-            request.setCorreo2(SeguridadUtil.getUsuario().getCorreo());
-
-            Call<BaseResponse<String>> call = solicitudService.aprobarSolicitud(request);
-            call.enqueue(new Callback<BaseResponse<String>>() {
+        public void aprobar(View itemView, int idSolicitud) {
+            AlertDialog dialog = createDialog(R.string.mensaje_aprobar_solicitud, new Callable<Void>() {
                 @Override
-                public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
-                    if (!response.isSuccessful()) return;
-                    if (response.body().getCodigo() == 1)
-                        listarSolicitud();
-                }
-
-                @Override
-                public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-
+                public Void call() throws Exception {
+                    aprobarSolicitud(idSolicitud);
+                    return null;
                 }
             });
+            dialog.show();
         }
 
         @Override
-        public void rechazarSolicitud(View itemView, int idSolicitud) {
-            AprobacionSolicitudRequest request = new AprobacionSolicitudRequest();
-            request.setIdSolicitud(idSolicitud);
-            request.setCorreo2(SeguridadUtil.getUsuario().getCorreo());
-
-            Call<BaseResponse<String>> call = solicitudService.rechazarSolicitud(request);
-            call.enqueue(new Callback<BaseResponse<String>>() {
+        public void rechazar(View itemView, int idSolicitud) {
+            AlertDialog dialog = createDialog(R.string.mensaje_rechazar_solicitud, new Callable<Void>() {
                 @Override
-                public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
-                    if (!response.isSuccessful()) return;
-                    if (response.body().getCodigo() == 1)
-                        listarSolicitud();
-                }
-
-                @Override
-                public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-
+                public Void call() throws Exception {
+                    rechazarSolicitud(idSolicitud);
+                    return null;
                 }
             });
+            dialog.show();
         }
+    }
+
+    private AlertDialog createDialog(int idResource, Callable fun) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.titulo_confirmacion)
+                .setMessage(idResource)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_Aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            fun.call();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.btn_Cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        return builder.create();
+    }
+
+    private void aprobarSolicitud(int idSolicitud) {
+        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
+        AprobacionSolicitudRequest request = new AprobacionSolicitudRequest();
+        request.setIdSolicitud(idSolicitud);
+        request.setCorreo2(SeguridadUtil.getUsuario().getCorreo());
+
+        Call<BaseResponse<String>> call = solicitudService.aprobarSolicitud(request);
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                ((MainActivity) getActivity()).closeLoading();
+                if (!response.isSuccessful()) return;
+                if (response.body().getCodigo() == 1) {
+                    Toast.makeText(getContext(), R.string.mensaje_solicitud_aprobada, Toast.LENGTH_SHORT).show();
+                    listarSolicitud();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void rechazarSolicitud(int idSolicitud) {
+        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
+        AprobacionSolicitudRequest request = new AprobacionSolicitudRequest();
+        request.setIdSolicitud(idSolicitud);
+        request.setCorreo2(SeguridadUtil.getUsuario().getCorreo());
+
+        Call<BaseResponse<String>> call = solicitudService.rechazarSolicitud(request);
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                ((MainActivity) getActivity()).closeLoading();
+                if (!response.isSuccessful()) return;
+                if (response.body().getCodigo() == 1) {
+                    Toast.makeText(getContext(), R.string.mensaje_solicitud_rechazada, Toast.LENGTH_SHORT).show();
+                    listarSolicitud();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

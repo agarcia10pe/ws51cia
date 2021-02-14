@@ -2,6 +2,7 @@ package com.hache.appentrepatas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,11 +26,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-
     TextView register_txt;
     Button login_btn;
     EditText user_txt, pass_txt;
-
+    ProgressDialog progressDialog;
     Intent intent;
     SolicitudService solicitudService;
 
@@ -38,22 +38,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         if (SeguridadUtil.esAutenticado()) {
-            Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
-            intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            redireccionarHome();
             return;
         }
 
         setContentView(R.layout.activity_login);
+        initView();
+        initRetrofit();
+        initProgressDialog();
+    }
 
+    private void redireccionarHome() {
+        Constants.user = SharedPreferencesManager.getSomeStringValue(Constants.PREF_NOMBRE) + " " + SharedPreferencesManager.getSomeStringValue(Constants.PREF_APELLIDO);
+        intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void initView() {
         register_txt = (TextView) findViewById(R.id.lbl_login_register);
         login_btn = (Button) findViewById(R.id.btn_login);
         user_txt = (EditText)  findViewById(R.id.user_LoginTxt);
         pass_txt = (EditText)  findViewById(R.id.pass_LoginTxt);
         login_btn.setOnClickListener(this);
         register_txt.setOnClickListener(this);
+    }
 
+    private void initRetrofit() {
         solicitudService = SolicitudClient.getInstance().getSolicitudService();
+    }
+
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage(getString(R.string.mensaje_validar_credenciales));
     }
 
     @Override
@@ -64,44 +82,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.btn_login:
-                if(valLogin()){
-
-                    LoginRequest request = new LoginRequest();
-                    request.setCorreo(user_txt.getText().toString());
-                    request.setContrasena(pass_txt.getText().toString().trim());
-
-                    Call<BaseResponse<UsuarioDTO>> call = solicitudService.autenticarUsuario(request);
-
-                    call.enqueue(new Callback<BaseResponse<UsuarioDTO>>() {
-                        @Override
-                        public void onResponse(Call<BaseResponse<UsuarioDTO>> call, Response<BaseResponse<UsuarioDTO>> response) {
-
-                            if (response.body().getCodigo() == 1) {
-                                Toast.makeText(getApplicationContext() , getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
-                                Constants.user = response.body().getData().getNombre() + " " + response.body().getData().getApePaterno();
-                                SeguridadUtil.asignarUsuario(response.body().getData());
-                                intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                return;
-                            }
-
-                            Toast.makeText(getApplicationContext() , getString(R.string.msg_login_incorecto), Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<BaseResponse<UsuarioDTO>> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-
+                if (valLogin())
+                    autenticarUsuario();
                 break;
             default:
                 break;
         }
     }
 
-    boolean valLogin(){
+    private boolean valLogin(){
         if(user_txt.getText().toString().trim().length()==0){
             Toast.makeText(this, getString(R.string.msg_login_usuario), Toast.LENGTH_LONG).show();
             return false;
@@ -118,5 +107,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return true;
+    }
+
+    private void autenticarUsuario() {
+        progressDialog.show();
+        LoginRequest request = new LoginRequest();
+        request.setCorreo(user_txt.getText().toString());
+        request.setContrasena(pass_txt.getText().toString().trim());
+
+        Call<BaseResponse<UsuarioDTO>> call = solicitudService.autenticarUsuario(request);
+
+        call.enqueue(new Callback<BaseResponse<UsuarioDTO>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<UsuarioDTO>> call, Response<BaseResponse<UsuarioDTO>> response) {
+                progressDialog.dismiss();
+                if (response.body().getCodigo() == 1) {
+                    Toast.makeText(getApplicationContext() , getString(R.string.msg_login_exito), Toast.LENGTH_LONG).show();
+                    Constants.user = response.body().getData().getNombre() + " " + response.body().getData().getApePaterno();
+                    SeguridadUtil.asignarUsuario(response.body().getData());
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                Toast.makeText(getApplicationContext() , getString(R.string.msg_login_incorecto), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<UsuarioDTO>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

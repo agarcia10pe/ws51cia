@@ -1,6 +1,9 @@
 package com.hache.appentrepatas;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,12 +48,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-
+    ProgressDialog progressDialog;
     FragmentTransaction transaction;
     FragmentManager  manager;
     DrawerLayout drawer;
     NavigationView navigationView;
     TextView nameTxt;
+    AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-
         navigationView = findViewById(R.id.nav_view);
 
         // Passing each menu ID as a set of Ids because each
@@ -83,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nameTxt  = (TextView) navigationView.getHeaderView(0).findViewById(R.id.lbl_user_name);
 
         navigationView.getMenu().findItem(R.id.nav_logoff).setOnMenuItemClickListener(menuItem -> {
-           logout();
-           return true;
+            dialog.show();
+            return true;
         });
         nameTxt.setText(Constants.user);
 
@@ -100,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             navigationView.getMenu().getItem(6).setVisible(false);
             navigationView.getMenu().getItem(7).setVisible(false);
         }
-
+        initProgressDialog();
+        createDialogLogout();
         General.permisoCall(this);
     }
 
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
+        closeLoading();
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
             if((fragment instanceof BaseFragment))
@@ -273,6 +280,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void initProgressDialog() {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    }
+
+    public void showLoading(String mensaje) {
+        progressDialog.setMessage( mensaje != null && !mensaje.isEmpty() ? mensaje : getString(R.string.mensaje_loading));
+        progressDialog.show();
+    }
+
+    public void closeLoading() {
+        progressDialog.dismiss();
+    }
+
+    private void createDialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.titulo_confirmacion)
+                .setMessage(R.string.mensaje_cerrar_sesion)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_Aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        logout();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.btn_Cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        dialog = builder.create();
+    }
+
     private void logout() {
         SeguridadUtil.logout();
         Intent intent = new Intent(this, HomeActivity.class);

@@ -88,7 +88,9 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
     }
 
     public boolean onBackPressed() {
-        ((MainActivity)getActivity()).setFragment(6, null, false);
+        AlertDialog alertDialog = createDialogBack();
+        alertDialog.show();
+        //((MainActivity)getActivity()).setFragment(6, null, false);
         return true;
     }
 
@@ -123,7 +125,6 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
         dialog = builder.create();
     }
 
-
     private void confirmarSolicitudAdopcion() {
         ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
         ConfirmacionSolicitudRequest request = new ConfirmacionSolicitudRequest();
@@ -148,4 +149,36 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
         });
     }
 
+    private AlertDialog createDialogBack() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.titulo_confirmacion)
+                .setMessage(R.string.mensaje_cancelar_solicitud)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_Aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
+                        Call<BaseResponse<String>> call = solicitudService.eliminarSolicitudInicializada(SeguridadUtil.getUsuario().getCorreo());
+                        call.enqueue(new Callback<BaseResponse<String>>() {
+                            @Override
+                            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                                ((MainActivity)getActivity()).setFragment(6, null, false);
+                            }
+
+                            @Override
+                            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+                                ((MainActivity) getActivity()).closeLoading();
+                                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.btn_Cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        return builder.create();
+    }
 }

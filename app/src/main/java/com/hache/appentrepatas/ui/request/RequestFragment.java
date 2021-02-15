@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,7 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
     private ArrayList<Adopt> adopts;
     private RequestAdapter requestAdapter;
     private SolicitudService solicitudService;
-    private  Adopt[] items = null;
-    Adopt item;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public RequestFragment() {
         // Required empty public constructor
@@ -76,36 +76,48 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_request, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.co_blue));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                listarSolicitudes(true);
+            }
+        });
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_request);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
-        adopts = new ArrayList<Adopt>();
-
-//        item = new Adopt();
-//        item.setEstado("Aprobado");
-//        adopts.add(item);
-//
-//        requestAdapter = new RequestAdapter(new OnSelectClick(), adopts);
-//        recyclerView.setAdapter(requestAdapter);
-        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        listarSolicitudes();
+        listarSolicitudes(false);
     }
 
-    private void listarSolicitudes() {
-        ((MainActivity) getActivity()).showLoading(null);
+    private void listarSolicitudes(boolean swiped) {
+        if (!swiped)
+            ((MainActivity) getActivity()).showLoading(null);
+
         Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call = solicitudService.listarSolicitudesPorCorreo(SeguridadUtil.getUsuario().getCorreo());
         call.enqueue(new Callback<BaseResponse<ArrayList<SolicitudPartialDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call, Response<BaseResponse<ArrayList<SolicitudPartialDTO>>> response) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
+
                 if (!response.isSuccessful()) return;
 
                 requestAdapter = new RequestAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -114,7 +126,11 @@ public class RequestFragment extends Fragment implements  View.OnClickListener{
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<SolicitudPartialDTO>>> call, Throwable t) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
                 Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });

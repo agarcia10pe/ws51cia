@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,10 +38,11 @@ import retrofit2.Response;
 
 public class AdoptFragment extends Fragment implements View.OnClickListener {
 
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private RecyclerView recyclerView ;
     private AdoptDogAdapter adoptDogAdapter;
-    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     SolicitudService solicitudService;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,26 +54,47 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_adopt, container, false);
+        initView(root);
+        return  root;
+    }
+
+    private void initView(View root) {
+        swipeRefreshLayout = root.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.co_blue));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                listarPerros(true);
+            }
+        });
+
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_adopts);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        return  root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        listarPerros();
+        listarPerros(false);
     }
 
-    private void listarPerros() {
-        ((MainActivity) getActivity()).showLoading(null);
+    private void listarPerros(boolean swiped) {
+        if (!swiped)
+            ((MainActivity) getActivity()).showLoading(null);
+
         Call<BaseResponse<ArrayList<PerroPartialDTO>>> call = solicitudService.listarPerro();
         call.enqueue(new Callback<BaseResponse<ArrayList<PerroPartialDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<PerroPartialDTO>>> call, Response<BaseResponse<ArrayList<PerroPartialDTO>>> response) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
+
                 if (!response.isSuccessful()) return;
 
                 adoptDogAdapter = new AdoptDogAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -80,7 +103,12 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<PerroPartialDTO>>> call, Throwable t) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
+
                 Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });

@@ -220,7 +220,7 @@ public class EndFragment extends Fragment implements View.OnClickListener, BaseF
 
     private void cargarImagen() {
         ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
-        StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString()+ ".jpge");
+        StorageReference ref = storageReference.child("solicitudes/" + UUID.randomUUID().toString()+ ".jpge");
         Bitmap bitmap = ((BitmapDrawable) imgPhoto.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

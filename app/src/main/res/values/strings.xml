@@ -122,6 +122,7 @@
     <string name="mensaje_aprobar_solicitud">¿Desea aprobar la solicitud?</string>
     <string name="mensaje_rechazar_solicitud">¿Desea rechazar la solicitud?</string>
     <string name="mensaje_terminar_solicitud">¿Desea terminar la solicitud?</string>
+    <string name="mensaje_registrar_perro">¿Desea registrar al perro?</string>
     <string name="mensaje_error_carga_foto">Debe cargar una fotografía antes de finalizar la solicitud.</string>
     <string name="mensaje_error_conexion">Problemas de conexión. Inténtelo de nuevo.</string>
     <string name="mensaje_solicitud_aprobada">Solicitud aprobada.</string>
@@ -130,4 +131,9 @@
     <string name="mensaje_procesando">Procesando...</string>
     <string name="mensaje_loading">Cargando...</string>
     <string name="mensaje_validar_credenciales">Validando Credenciales...</string>
+
+    <!-- [END fcm_default_icon_string] -->
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
+    <string name="fcm_message">Entre Patas</string>
 </resources>

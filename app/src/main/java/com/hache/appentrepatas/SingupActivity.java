@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import com.hache.appentrepatas.dto.BaseResponse;
 import com.hache.appentrepatas.dto.ClienteRequest;
+import com.hache.appentrepatas.helper.SharedPreferencesManager;
 import com.hache.appentrepatas.helper.VeterinariaContract;
 import com.hache.appentrepatas.helper.VeterinariaDbHelper;
 import com.hache.appentrepatas.http.SolicitudClient;
 import com.hache.appentrepatas.http.SolicitudService;
+import com.hache.appentrepatas.util.Constants;
 import com.hache.appentrepatas.util.EnumSolicitud;
 import com.hache.appentrepatas.util.General;
 
@@ -65,7 +67,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage(getString(R.string.mensaje_validar_credenciales));
+        progressDialog.setMessage(getString(R.string.mensaje_procesando));
     }
 
     @Override
@@ -135,6 +137,7 @@ public class SingupActivity extends AppCompatActivity implements View.OnClickLis
         request.setNombre(nombre.getText().toString().trim());
         request.setApePaterno(apellido.getText().toString().trim());
         request.setCelular(Integer.parseInt(telefono.getText().toString()));
+        request.setToken(SharedPreferencesManager.getSomeStringValue(Constants.PREF_TOKEN_FB));
 
         Call<BaseResponse<String>> call = solicitudService.registrarCliente(request);
 

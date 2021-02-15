@@ -43,6 +43,9 @@ public interface SolicitudService {
     @POST("api/solicitud/registrar-perro")
     Call<BaseResponse<String>> registrarPerro(@Part MultipartBody.Part file, @Part("perro") RequestBody perro);
 
+    @POST("api/solicitud/v2/registrar-perro")
+    Call<BaseResponse<String>> registrarPerro2(@Body PerroDTO perroDTO);
+
     @POST("api/solicitud/solicitar-adopcion")
     Call<BaseResponse<String>> solicitarAdopcion(@Body SolicitarAdopcionRequest request);
 

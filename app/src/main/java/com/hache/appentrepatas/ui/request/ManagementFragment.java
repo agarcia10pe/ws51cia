@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     private RecyclerView recyclerView ;
     private ArrayList<Adopt> adopts;
     private ManagementAdapter managementAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public ManagementFragment() {
         // Required empty public constructor
@@ -69,6 +71,16 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     }
 
     private void initView(View view) {
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.co_blue));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                listarSolicitud(true);
+            }
+        });
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_management);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -79,16 +91,21 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        listarSolicitud();
+        listarSolicitud(false);
     }
 
-    private void listarSolicitud() {
+    private void listarSolicitud(boolean swiped) {
         ((MainActivity) getActivity()).showLoading(null);
         Call<BaseResponse<ArrayList<SolicitudDTO>>> call = solicitudService.listarSolicitudes();
         call.enqueue(new Callback<BaseResponse<ArrayList<SolicitudDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<ArrayList<SolicitudDTO>>> call, Response<BaseResponse<ArrayList<SolicitudDTO>>> response) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
+
                 if (!response.isSuccessful()) return;
 
                 managementAdapter = new ManagementAdapter(new OnSelectClick(), response.body().getData(), getContext());
@@ -97,7 +114,12 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
 
             @Override
             public void onFailure(Call<BaseResponse<ArrayList<SolicitudDTO>>> call, Throwable t) {
-                ((MainActivity) getActivity()).closeLoading();
+                if (swiped) {
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    ((MainActivity) getActivity()).closeLoading();
+                }
+
                 Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
             }
         });
@@ -176,7 +198,7 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
                 if (!response.isSuccessful()) return;
                 if (response.body().getCodigo() == 1) {
                     Toast.makeText(getContext(), R.string.mensaje_solicitud_aprobada, Toast.LENGTH_SHORT).show();
-                    listarSolicitud();
+                    listarSolicitud(false);
                 }
             }
 
@@ -202,7 +224,7 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
                 if (!response.isSuccessful()) return;
                 if (response.body().getCodigo() == 1) {
                     Toast.makeText(getContext(), R.string.mensaje_solicitud_rechazada, Toast.LENGTH_SHORT).show();
-                    listarSolicitud();
+                    listarSolicitud(false);
                 }
             }
 

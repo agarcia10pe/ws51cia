@@ -1,11 +1,16 @@
 package com.hache.appentrepatas.ui.register;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +27,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
@@ -48,11 +60,13 @@ import com.karumi.dexter.listener.single.CompositePermissionListener;
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Console;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.xml.transform.Result;
 
@@ -76,35 +90,12 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
     private PermissionListener allPermissionListener;
     private RecyclerView recyclerView;
     private ArrayList<Uri> items;
+    private StorageReference storageReference;
     private RegisterAdapter registerAdapter;
     private SolicitudService solicitudService;
     private String mediaPath;
     private Gson gson;
     int numFoto = 0;
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == PICKER) {
-            //String[] medData = { MediaStore.Images.Media.DATA };
-            items = new ArrayList<>();
-            ruta = data.getData();
-            items.add(ruta);
-            numFoto = 1;
-
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            assert cursor != null;
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            mediaPath = cursor.getString(columnIndex);
-            cursor.close();
-            registerAdapter = new RegisterAdapter(getContext(), new OnSelectClick(), items);
-            recyclerView.setAdapter(registerAdapter);
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,6 +109,14 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        initView(view);
+        initStorage();
+        initValues();
+
+        return view;
+    }
+
+    private void initView(View view) {
         nombreTxt = (EditText) view.findViewById(R.id.nombre_registerTxt);
         edadTxt = (EditText) view.findViewById(R.id.edad_registerTxt);
         pesoTxt = (EditText) view.findViewById(R.id.peso_registerTxt);
@@ -128,13 +127,13 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
         recyclerView.setLayoutManager(layoutManager);
         //recyclerView.setHasFixedSize(true);
         registerBtn.setOnClickListener(this);
-
-        init();
-
-        return view;
     }
 
-    private void init() {
+    private void initStorage() {
+        storageReference = FirebaseStorage.getInstance().getReference();
+    }
+
+    private void initValues() {
         numFoto = 0;
         nombreTxt.setText("");
         edadTxt.setText("");
@@ -154,46 +153,14 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_register_dog:
-                registrarPerro();
+                if (valRegistro()) {
+                    AlertDialog alertDialog = createDialog();
+                    alertDialog.show();
+                }
                 break;
             default:
                 break;
         }
-    }
-
-    void registrarPerro() {
-        if (!valRegistro()) return;
-        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
-        PerroDTO perroDTO = new PerroDTO();
-        perroDTO.setNombre(nombreTxt.getText().toString());
-        perroDTO.setEdad(edadTxt.getText().toString());
-        perroDTO.setPeso(pesoTxt.getText().toString());
-        perroDTO.setSexo(gender[(int)gender_spinner.getSelectedItemId()]);
-
-        File file = new File(UriUtils.getPathFromUri(getContext(), items.get(0)));
-
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-        RequestBody perro = RequestBody.create(MediaType.parse("application/json"), gson.toJson(perroDTO));
-        Call<BaseResponse<String>> call = solicitudService.registrarPerro(filePart, perro);
-
-        call.enqueue(new Callback<BaseResponse<String>>() {
-            @Override
-            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
-                ((MainActivity) getActivity()).closeLoading();
-                if (!response.isSuccessful()) return;
-                if (response.body().getCodigo() == 0) return;
-
-                Toast.makeText(getContext(), getString(R.string.msg_register_exito), Toast.LENGTH_LONG).show();
-                init();
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-                ((MainActivity) getActivity()).closeLoading();
-                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     boolean valRegistro(){
@@ -224,6 +191,103 @@ public class RegisterFragment extends Fragment implements  View.OnClickListener 
             return false;
         }
         return true;
+    }
+
+    private AlertDialog createDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.titulo_confirmacion)
+                .setMessage(R.string.mensaje_registrar_perro)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_Aceptar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cargarImagen();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.btn_Cancelar, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        return builder.create();
+    }
+
+    private void cargarImagen() {
+        ((MainActivity) getActivity()).showLoading(getString(R.string.mensaje_procesando));
+        File file = new File(UriUtils.getPathFromUri(getContext(), items.get(0)));
+        String extension = file.getPath().substring(file.getPath().lastIndexOf("."));
+        StorageReference ref = storageReference.child("perros/" + UUID.randomUUID().toString() + extension);
+        ref.putFile(items.get(0))
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                registrarPerro(task.getResult().toString());
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        ((MainActivity) getActivity()).closeLoading();
+                        Toast.makeText(getContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    void registrarPerro(String urlImagen) {
+        PerroDTO perroDTO = new PerroDTO();
+        perroDTO.setNombre(nombreTxt.getText().toString());
+        perroDTO.setEdad(edadTxt.getText().toString());
+        perroDTO.setPeso(pesoTxt.getText().toString());
+        perroDTO.setSexo(gender[(int)gender_spinner.getSelectedItemId()]);
+        perroDTO.setImagen(urlImagen);
+        Call<BaseResponse<String>> call = solicitudService.registrarPerro2(perroDTO);
+        call.enqueue(new Callback<BaseResponse<String>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
+                ((MainActivity) getActivity()).closeLoading();
+                if (!response.isSuccessful()) return;
+                if (response.body().getCodigo() == 0) return;
+
+                Toast.makeText(getContext(), getString(R.string.msg_register_exito), Toast.LENGTH_LONG).show();
+                initValues();
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
+                ((MainActivity) getActivity()).closeLoading();
+                Toast.makeText(getContext(), R.string.mensaje_error_conexion, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICKER) {
+            //String[] medData = { MediaStore.Images.Media.DATA };
+            items = new ArrayList<>();
+            ruta = data.getData();
+            items.add(ruta);
+            numFoto = 1;
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            mediaPath = cursor.getString(columnIndex);
+            cursor.close();
+            registerAdapter = new RegisterAdapter(getContext(), new OnSelectClick(), items);
+            recyclerView.setAdapter(registerAdapter);
+        }
     }
 
     private class OnSelectClick implements RegisterAdapter.MiListenerClick{

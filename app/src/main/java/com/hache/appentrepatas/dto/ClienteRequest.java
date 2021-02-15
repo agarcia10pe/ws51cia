@@ -28,6 +28,10 @@ public class ClienteRequest {
     @Expose
     private int celular;
 
+    @SerializedName("Token")
+    @Expose
+    private String token;
+
     public String getCorreo() {
         return correo;
     }
@@ -74,5 +78,13 @@ public class ClienteRequest {
 
     public void setCelular(int celular) {
         this.celular = celular;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

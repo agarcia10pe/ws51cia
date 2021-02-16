@@ -6,9 +6,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,18 +25,26 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.hache.appentrepatas.MainActivity;
 import com.hache.appentrepatas.R;
+import com.hache.appentrepatas.helper.DbContract;
+import com.hache.appentrepatas.helper.EntrePatasDbHelper;
+import com.hache.appentrepatas.helper.MyApp;
 import com.hache.appentrepatas.helper.SharedPreferencesManager;
 import com.hache.appentrepatas.util.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class FbMessagingService extends FirebaseMessagingService {
+    SQLiteDatabase db;
 
     public FbMessagingService(){
         System.out.println("inicio servicio");
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        EntrePatasDbHelper dbHelper = new EntrePatasDbHelper(MyApp.getContext());
+        db = dbHelper.getReadableDatabase();
     }
 
     @Override
@@ -52,6 +63,8 @@ public class FbMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Log.d(TAG, "Mensaje Recibido: " + remoteMessage.getData().toString());
+
+        if (!isActiveNotification()) return;
 
         Map<String, String> data = remoteMessage.getData();
         if (data.size() > 0) {
@@ -98,5 +111,29 @@ public class FbMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private boolean isActiveNotification() {
+        String[] projection = {
+                BaseColumns._ID,
+                DbContract.ConfigurationEntry.COLUMN_USUARIO,
+                DbContract.ConfigurationEntry.COLUMN_ACTIVO
+        };
+
+        String sortOrder = DbContract.ConfigurationEntry.COLUMNS_FECHA + " DESC";
+        Cursor cursor = db.query( DbContract.ConfigurationEntry.TABLE_NAME, projection, null, null, null, null, sortOrder);
+
+        List items = new ArrayList();
+        while(cursor.moveToNext()) {
+            String activo  = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DbContract.ConfigurationEntry.COLUMN_ACTIVO));
+            items.add(activo);
+        }
+        cursor.close();
+
+        if (items.size() == 0)
+            return  false;
+
+        return  (items.get(0).equals("1"));
     }
 }

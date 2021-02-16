@@ -129,6 +129,7 @@ public class AdoptFragment extends Fragment implements View.OnClickListener {
         @Override
         public void clickItem(View itemView, int idPerro) {
             Bundle bundle = new Bundle();
+            adoptDogAdapter.setItems(new ArrayList<>());
             bundle.putString("idPerro", String.valueOf(idPerro));
             ((MainActivity) getActivity()).setFragment(1, bundle, true);
         }

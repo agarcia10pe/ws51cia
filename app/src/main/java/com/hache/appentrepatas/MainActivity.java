@@ -5,19 +5,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.hache.appentrepatas.helper.SharedPreferencesManager;
+import com.hache.appentrepatas.helper.EntrePatasDbHelper;
 import com.hache.appentrepatas.ui.adopt.AdoptFragment;
 import com.hache.appentrepatas.ui.home.HomeFragment;
 import com.hache.appentrepatas.ui.request.ConfirmFragment;
@@ -30,9 +25,7 @@ import com.hache.appentrepatas.util.General;
 import com.hache.appentrepatas.util.SeguridadUtil;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -42,8 +35,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NavigationView navigationView;
     TextView nameTxt;
     AlertDialog dialog;
+    EntrePatasDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             return;
         }
-
+        dbHelper = new EntrePatasDbHelper(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_adopt, R.id.nav_request, R.id.nav_locate, R.id.nav_callup, R.id.nav_register, R.id.nav_list,
-                R.id.nav_subtitle, R.id.nav_logoff)
+                R.id.nav_subtitle, R.id.nav_setting ,R.id.nav_logoff)
                 .setDrawerLayout(drawer)
                 .build();
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.configuration.ConfigurationFragment">
+
+ <RelativeLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+     <ImageView
+         android:id="@+id/ic_campana"
+         android:layout_width="30dp"
+         android:layout_height="30dp"
+         android:layout_alignParentTop="true"
+         android:layout_marginLeft="@dimen/size_item"
+         android:layout_alignParentLeft="true"
+         android:layout_marginTop="@dimen/size_item"
+         android:background="@mipmap/ic_campana" />
+
+     <TextView
+         android:id="@+id/txt_notificacion"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_marginLeft="5dp"
+         android:layout_toRightOf="@+id/ic_campana"
+         android:layout_marginTop="@dimen/size_item"
+         android:text="@string/app_configuration"
+         android:textColor="@color/co_brown"
+         android:textSize="@dimen/size_item"
+         android:textStyle="bold" />
+
+     <Switch
+         android:id="@+id/switch_config"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_marginRight="@dimen/size_item"
+         android:layout_alignBaseline="@+id/txt_notificacion"
+         />
+ </RelativeLayout>
+
+</FrameLayout>

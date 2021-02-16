@@ -1,6 +1,7 @@
 package com.hache.appentrepatas.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class AdoptDogAdapter extends RecyclerView.Adapter<AdoptDogAdapter.AdoptD
         void clickItem(View itemView, int idPerro);
     }
 
-    public class AdoptDogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class AdoptDogViewHolder extends RecyclerView.ViewHolder {
         private TextView txtName;
         private ImageView imgFoto;
 
@@ -42,17 +43,16 @@ public class AdoptDogAdapter extends RecyclerView.Adapter<AdoptDogAdapter.AdoptD
             txtName = (TextView) itemView.findViewById(R.id.txt_adopt);
             imgFoto = (ImageView) itemView.findViewById(R.id.im_dog);
 
-            itemView.setOnClickListener(this);
-        }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                default:
-                    int idPerro = listaPerroAdopcion.get(getAdapterPosition()).getIdPerro();
-                    miListenerClick.clickItem(itemView, idPerro);
-                    break;
-            }
+                    if (listaPerroAdopcion.size() > 0) {
+                        int idPerro = listaPerroAdopcion.get(getAdapterPosition()).getIdPerro();
+                        miListenerClick.clickItem(itemView, idPerro);
+                    }
+                }
+            });
         }
     }
 
@@ -79,5 +79,8 @@ public class AdoptDogAdapter extends RecyclerView.Adapter<AdoptDogAdapter.AdoptD
     @Override
     public int getItemCount() {
         return listaPerroAdopcion.size();
+    }
+    public void setItems(ArrayList<PerroPartialDTO> items) {
+        this.listaPerroAdopcion = items;
     }
 }

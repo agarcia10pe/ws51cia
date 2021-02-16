@@ -2,22 +2,24 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:minHeight="200dp"
-    android:background="@color/co_melon"
+    android:background="@drawable/border"
     android:layout_margin="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -30,26 +32,25 @@
                     android:id="@+id/txt_NombrePerro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/size_item"
-                    android:textStyle="bold"
                     android:gravity="center"
+                    android:text="Firulay"
                     android:textColor="@color/co_brown"
-                    android:text="Firulay" />
+                    android:textSize="@dimen/size_item2"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/black"
                     android:layout_marginTop="4dp"
-                    android:gravity="center" >
+                    android:background="@color/black"
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/im_request"
                         android:layout_width="80dp"
-                        android:layout_margin="3dp"
-
                         android:layout_height="80dp"
                         android:layout_gravity="center"
+                        android:layout_margin="3dp"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_foto" />
@@ -57,14 +58,14 @@
 
 
                 <com.google.android.material.button.MaterialButton
-                    android:theme="@style/Theme.AppEntrePatas.Button"
                     android:id="@+id/btn_mangament_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_rechazar" />
+                    android:text="@string/app_rechazar"
+                    android:theme="@style/Theme.AppEntrePatas.Button" />
 
             </LinearLayout>
-            s
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -79,41 +80,44 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:background="#B58D66">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txt_NombreCliente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/size_item"
-                    android:textStyle="bold"
-                    android:textColor="@color/co_brown"
                     android:gravity="center"
-                    android:text="Usuario" />
+                    android:text="Usuario"
+                    android:textColor="@color/co_brown"
+                    android:textSize="@dimen/size_item2"
+                    android:textStyle="bold" />
 
-                <ImageView
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center">
 
-                    android:id="@+id/im_fhoto"
-                    android:layout_width="80dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_user" />
-
+                    <ImageView
+                        android:id="@+id/im_fhoto"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_user" />
+                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:theme="@style/Theme.AppEntrePatas.Button"
                     android:id="@+id/btn_mangament_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_aprobar" />
+                    android:text="@string/app_aprobar"
+                    android:theme="@style/Theme.AppEntrePatas.Button" />
 
             </LinearLayout>
 
@@ -125,7 +129,6 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:minWidth="180dp"
-        android:layout_marginTop="5dp"
         android:paddingBottom="0dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="0dp"
@@ -136,13 +139,16 @@
             android:text="@string/label_NroSolicitud"
             android:textSize="@dimen/size_item2"
             android:textColor="@color/black"
+            android:layout_marginBottom="5dp"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/txt_nroSolicitud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textSize="@dimen/size_item"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/size_item1"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>

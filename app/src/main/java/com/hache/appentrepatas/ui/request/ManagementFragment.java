@@ -95,7 +95,9 @@ public class ManagementFragment extends Fragment  implements View.OnClickListene
     }
 
     private void listarSolicitud(boolean swiped) {
-        ((MainActivity) getActivity()).showLoading(null);
+        if (!swiped)
+            ((MainActivity) getActivity()).showLoading(null);
+
         Call<BaseResponse<ArrayList<SolicitudDTO>>> call = solicitudService.listarSolicitudes();
         call.enqueue(new Callback<BaseResponse<ArrayList<SolicitudDTO>>>() {
             @Override

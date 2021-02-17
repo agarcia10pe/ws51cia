@@ -137,6 +137,7 @@ public class ConfirmFragment extends Fragment implements View.OnClickListener, B
                 if (!response.isSuccessful()) return;
 
                 if (response.body().getCodigo() == 1) {
+                    Toast.makeText(getContext(), getString(R.string.mensaje_solicitud_confirmada), Toast.LENGTH_LONG).show();
                     ((MainActivity) getActivity()).setFragment(3, null, true);
                 }
             }

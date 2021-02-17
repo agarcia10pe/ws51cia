@@ -153,6 +153,7 @@ public class DetailFragment extends Fragment implements  View.OnClickListener , 
                     return;
                 }
 
+                Toast.makeText(getContext(), getString(R.string.mensaje_solicitud_iniciada), Toast.LENGTH_LONG).show();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.ID_SOLICITUD, response.body().getData());
                 ((MainActivity) getActivity()).setFragment(2,  bundle, true);

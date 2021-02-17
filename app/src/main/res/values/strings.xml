@@ -128,6 +128,8 @@
     <string name="mensaje_solicitud_aprobada">Solicitud aprobada.</string>
     <string name="mensaje_solicitud_rechazada">Solicitud rechazada.</string>
     <string name="mensaje_solicitud_terminada">Solicitud finalizada exitosamente.</string>
+    <string name="mensaje_solicitud_iniciada">Solicitud generada exitosamente.</string>
+    <string name="mensaje_solicitud_confirmada">Solicitud confirmada exitosamente.</string>
 
     <string name="mensaje_cancelar_solicitud">Si retrocede se cancelará su solicitud.\n ¿Está seguro?</string>
 
